@@ -1,0 +1,120 @@
+@extends('admin.layouts.app')
+
+@section('content')
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">All Tags</h5>
+                </div>
+                <div class="card-footer">
+                    <table class="table table-hover display" id="tagTable">
+                        <thead>
+                            <tr>
+                                <th class="text-center">SL</th>
+                                <th class="text-center">Tag Name</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($tags ?? [] as $key => $tag)
+                                <tr>
+                                    <td class="text-center">{{ $key + 1 }}</td>
+                                    <td class="text-center">{{ $tag?->name }}</td>
+
+                                    <td class="text-center">
+                                        <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                            class="btn btn-primary btn-icon editBtn" data-id="{{ $tag?->id }}"
+                                            data-name="{{ $tag?->name }}"><i
+                                                data-lucide="edit"></i></button>
+                                        <a class="btn btn-danger btn-icon deleteConfirm"
+                                            href="{{ route('tag.destroy', $tag?->id) }}">
+                                            <i data-lucide="trash-2"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="text-danger text-center">No Tag Found</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Add New Tag</h5>
+                </div>
+                <div class="card-footer">
+                    <form action="{{ route('tag.store') }}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <div class="mb-4">
+                            <label for="" class="form-label">Tag Name</label>
+                            <input type="text" name="name" id="tagName" placeholder="Tag Name"
+                                class="form-control">
+                            @error('name')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-4 text-center">
+                            <button type="submit" class="btn btn-primary" id="submit">ADD</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Tag</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editTagForm" action="" method="post" enctype="multipart/form-data">
+                        @method('PUT')
+                        @csrf
+                        <div class="mb-4">
+                            <label for="" class="form-label">Size Name</label>
+                            <input type="text" name="name" id="editTagName" placeholder="Tag Name"
+                                class="form-control">
+                            @error('name')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-4 text-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+@push('script')
+    <script>
+        $(document).ready(function() {
+            $('#tagTable').DataTable();
+        });
+
+
+        $('.editBtn').click(function() {
+            const id = $(this).data('id');
+            const name = $(this).data('name');
+            const url = '{{ route('tag.update', ':id') }}'.replace(':id', id);
+
+            $('#editTagName').val(name);
+            $('#editTagForm').attr('action', url);
+
+        })
+    </script>
+@endpush
