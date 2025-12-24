@@ -84,13 +84,13 @@
                     <div class="col-12 ">
                         <div class="mt-3">
                             <p>Description:</p>
-                            <h5>{!! $product->details?->description !!}</h5>
+                            {!! $product->details?->description !!}
                         </div>
                     </div>
                     <div class="col-12 ">
                         <div class="mt-3">
                             <p>Additional Information:</p>
-                            <h5>{!! $product->details?->additional_info !!}</h5>
+                            {!! $product->details?->additional_info !!}
                         </div>
                     </div>
                 </div>
@@ -101,8 +101,8 @@
                     <div class="col-12 ">
                         <div class="mt-3">
                             <p>Product Thumbnail:</p>
-                            <img src="{{ asset('storage/' . $product->media?->src) }}" alt="Product Thumbnail"
-                                width="140" height="140" class="img-thumbnail">
+                            <img src="{{ $product?->thumbnail }}" alt="Product Thumbnail" width="140" height="140"
+                                class="img-thumbnail">
                         </div>
                     </div>
                     <div class="col-12 ">
@@ -119,6 +119,14 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="sectionCard mb">
+                <div class="btnGroup d-flex justify-content-between">
+                    <a href="{{ route('product.index') }}" class="btn btn-primary btn-md"><i
+                            class="fas fa-angle-left me-2"></i> Back</a>
+                    <a href="{{ route('product.edit', $product->id) }}" class="btn btn-primary btn-md">Edit <i
+                            class="fas fa-edit ms-2"></i></a>
                 </div>
             </div>
         </div>

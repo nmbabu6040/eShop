@@ -14,24 +14,24 @@ Route::prefix('admin')->group(function () {
     Route::controller(CategoryController::class)->group(function () {
         Route::get('/categories', 'index')->name('category.index');
         Route::post('/category/store', 'store')->name('category.store');
-        Route::get('/category/{category}/edit/', 'edit')->name('category.edit');
-        Route::put('/category/{category}/update/', 'update')->name('category.update');
+        Route::get('/category/{category}/edit', 'edit')->name('category.edit');
+        Route::put('/category/{category}/update', 'update')->name('category.update');
     });
 
     //sub-category routes
     Route::controller(SubCategoryController::class)->group(function () {
         Route::get('/subCategories', 'index')->name('subCategory.index');
         Route::post('/subcategory/store', 'store')->name('subCategory.store');
-        Route::get('/subCategory/{subCategory}/edit/', 'edit')->name('subCategory.edit');
-        Route::put('/subCategory/{subCategory}/update/', 'update')->name('subCategory.update');
+        Route::get('/subCategory/{subCategory}/edit', 'edit')->name('subCategory.edit');
+        Route::put('/subCategory/{subCategory}/update', 'update')->name('subCategory.update');
     });
 
     //brand routes
     Route::controller(BrandController::class)->group(function () {
         Route::get('/brands', 'index')->name('brand.index');
         Route::post('/brand/store', 'store')->name('brand.store');
-        Route::get('/brand/{brand}/edit/', 'edit')->name('brand.edit');
-        Route::put('/brand/{brand}/update/', 'update')->name('brand.update');
+        Route::get('/brand/{brand}/edit', 'edit')->name('brand.edit');
+        Route::put('/brand/{brand}/update', 'update')->name('brand.update');
         Route::delete('/brand/{brand}/destroy', 'destroy')->name('brand.destroy');
     });
 
@@ -39,8 +39,8 @@ Route::prefix('admin')->group(function () {
     Route::controller(ColorController::class)->group(function () {
         Route::get('/colors', 'index')->name('color.index');
         Route::post('/color/store', 'store')->name('color.store');
-        Route::get('/color/{color}/edit/', 'edit')->name('color.edit');
-        Route::put('/color/{color}/update/', 'update')->name('color.update');
+        Route::get('/color/{color}/edit', 'edit')->name('color.edit');
+        Route::put('/color/{color}/update', 'update')->name('color.update');
         Route::delete('/color/{color}/destroy', 'destroy')->name('color.destroy');
     });
 
@@ -48,7 +48,7 @@ Route::prefix('admin')->group(function () {
     Route::controller(SizeController::class)->group(function () {
         Route::get('/sizes', 'index')->name('size.index');
         Route::post('/size/store', 'store')->name('size.store');
-        Route::put('/size/{size}/update/', 'update')->name('size.update');
+        Route::put('/size/{size}/update', 'update')->name('size.update');
         Route::delete('/size/{size}/destroy', 'destroy')->name('size.destroy');
     });
 
@@ -57,7 +57,7 @@ Route::prefix('admin')->group(function () {
     Route::controller(TagController::class)->group(function () {
         Route::get('/tags', 'index')->name('tags.index');
         Route::post('/tag/store', 'store')->name('tag.store');
-        Route::put('/tag/{tag}/update/', 'update')->name('tag.update');
+        Route::put('/tag/{tag}/update', 'update')->name('tag.update');
         Route::delete('/tag/{tag}/destroy', 'destroy')->name('tag.destroy');
     });
 
@@ -68,8 +68,8 @@ Route::prefix('admin')->group(function () {
         Route::get('/product', 'create')->name('product.create');
         Route::post('/product/store', 'store')->name('product.store');
         Route::get('/product/{product}show', 'show')->name('product.show');
-        Route::post('/product/{product}edit', 'edit')->name('product.edit');
-        Route::put('/product/{product}/update/', 'update')->name('product.update');
+        Route::get('/product/{product}edit', 'edit')->name('product.edit');
+        Route::put('/product/{product}/update', 'update')->name('product.update');
         Route::delete('/product/{product}/destroy', 'destroy')->name('product.destroy');
     });
 });
