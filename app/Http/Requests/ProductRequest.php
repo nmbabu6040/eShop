@@ -20,7 +20,10 @@ class ProductRequest extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
+
     {
+
+        $required = $this->method() == 'PUT' ? 'nullable' : 'required';
         return [
             'name' => 'required',
             'short_description' => 'required',
@@ -29,7 +32,7 @@ class ProductRequest extends FormRequest
             'product_sku' => 'required|unique:products,sku_code',
             'by_price' => 'required',
             'sale_price' => 'required',
-            'thumbnail' => 'required|image|mimes:jpeg,jpg,png,gif,svg,webp|max:2048',
+            'thumbnail' => "$required|image|mimes:jpeg,jpg,png,gif,svg,webp|max:2048",
         ];
     }
 }

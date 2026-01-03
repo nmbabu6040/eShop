@@ -11,9 +11,9 @@
             </a>
         </div>
         <div class="card-body">
-            <form action="{{ route('product.update', $product->id) }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('product.update', $product->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
-
+                @method('PUT')
                 <div class="sectionCard mb-4">
                     <span class="sectionTitle">Product Info</span>
                     <div class="row mt-4">
@@ -134,21 +134,29 @@
                                 <div class="upload__btn-box">
                                     <label class="upload__btn" for="upload">
                                         <img src="{{ asset('admin/assets/images/upload.png') }}" alt="Upload Icon"
-                                            width="140" height="140" id="thumbnailGellery">
-                                        {{-- এখানে 'images[]' নাম থাকবে --}}
-                                        <input type="file" name="images[]" data-max_length="20"
-                                            class="upload__inputfile d-none" id="upload" multiple>
+                                            class="image-thumbnail" width="140" height="140" id="thumbnailGellery">
                                     </label>
+
+                                    {{-- এখানে 'images[]' নাম থাকবে --}}
+                                    <input type="file" name="images[]" data-max_length="20"
+                                        class="upload__inputfile d-none" id="upload" multiple>
+
+                                    <div class="upload__img-wrap ">
+                                        @foreach ($product?->galleries ?? [] as $image)
+                                            <div class='upload__img-box'>
+                                                <div class='img-bg'
+                                                    style='background-image: url({{ Storage::url($image['src']) }})'
+                                                    data-file='{{ $image['name'] }}'data-id='{{ $image['id'] }}'>
+                                                    <div class='upload__img-close'><i class='fas fa-xmark'></i></div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
                                 </div>
-                                <div class="upload__img-wrap col-sm-10">
-                                </div>
-                                {{-- নতুন ফাইল আপলোড করার জন্য একটি হিডেন ইনপুট ফিল্ড দরকার, যা ফর্মে পাঠানো হবে --}}
-                                <input type="hidden" name="image_files_count" id="image_files_count" value="0">
                             </div>
                         </div>
                     </div>
                 </div>
-
                 <div class="my-4 d-flex justify-content-end align-items-center gap-1">
                     <a href="{{ route('product.create') }}"
                         class="btn btn-secondary btn-md d-flex justify-content-between align-items-center">
@@ -193,14 +201,14 @@
         jQuery(document).ready(function() {
 
             // গ্যালারি ফাইলগুলো রাখার জন্য গ্লোবাল অ্যারে। এটিতে শুধুমাত্র ফাইল অবজেক্ট থাকবে।
-            var imgArray = [];
-            var imgWrap = $(".upload__img-wrap");
+            let imgArray = [];
+            let imgWrap = $(".upload__img-wrap");
 
             // ফাংশন যা প্রিভিউ তৈরি করে
             function generatePreview(file) {
-                var reader = new FileReader();
+                let reader = new FileReader();
                 reader.onload = function(e) {
-                    var html = `
+                    let html = `
                     <div class='upload__img-box'>
                         <div class='img-bg' style='background-image: url(${e.target.result})'
                             data-file-name='${file.name}' data-file-size='${file.size}'>
@@ -214,9 +222,9 @@
 
             // আপলোড ইনপুট পরিবর্তন হলে
             $(".upload__inputfile").on("change", function(e) {
-                var maxLength = $(this).attr("data-max_length");
-                var files = e.target.files;
-                var filesArr = Array.prototype.slice.call(files);
+                let maxLength = $(this).attr("data-max_length");
+                let files = e.target.files;
+                let filesArr = Array.prototype.slice.call(files);
 
                 filesArr.forEach(function(f) {
                     if (!f.type.match("image.*")) return;
@@ -228,7 +236,7 @@
                     }
 
                     // ডুপ্লিকেট ফাইল (নাম ও সাইজ এক হলে) এড়ানোর জন্য চেক
-                    var isDuplicate = imgArray.some(existingFile =>
+                    let isDuplicate = imgArray.some(existingFile =>
                         existingFile.name === f.name && existingFile.size === f.size
                     );
 
@@ -252,11 +260,42 @@
 
             // ফাইল রিমুভ করার ফাংশন
             $("body").on("click", ".upload__img-close", function() {
-                var fileName = $(this).closest(".img-bg").data("file-name");
-                var fileSize = $(this).closest(".img-bg").data("file-size");
+                let fileName = $(this).parent().data("file");
+                let id = $(this).parent().data("id");
+
+                const confirmDelete = confirm('Are you sure you want to delete this image?');
+
+                if (!confirmDelete) {
+                    return;
+                }
+
+                if (id && confirmDelete) {
+
+                    const url = `{{ route('product.deleteImage', ':id') }}`.replace(':id', id);
+                    $.ajax({
+                        url: url,
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            console.log('Image deleted successfully');
+                        },
+                        error: function() {
+                            alert('Something went wrong');
+                        }
+
+                    }).done(function() {
+                        $(this).closest(".upload__img-box").remove();
+                        updateFileInput();
+                    })
+
+                }
+
+                return;
 
                 // imgArray থেকে ফাইলটি খুঁজে বের করে মুছে ফেলুন
-                for (var i = 0; i < imgArray.length; i++) {
+                for (let i = 0; i < imgArray.length; i++) {
                     // ফাইলের নাম এবং সাইজ মিলিয়ে রিমুভ করা
                     if (imgArray[i].name === fileName && imgArray[i].size == fileSize) {
                         imgArray.splice(i, 1);
