@@ -42,6 +42,10 @@
                                     @endif
                                 </td>
                                 <td class="text-center">
+                                    <a href="{{ route('product.inventory', $product?->id) }}"
+                                        class="btn btn-success btn-icon">
+                                        <i data-lucide="list"></i>
+                                    </a>
                                     <a href="{{ route('product.show', $product?->id) }}"
                                         class="btn btn-secondary btn-icon "><i data-lucide="eye"></i></a>
                                     <a href="{{ route('product.edit', $product?->id) }}"

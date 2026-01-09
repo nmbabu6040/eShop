@@ -20,19 +20,17 @@ class ProductRequest extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
-
     {
-
         $required = $this->method() == 'PUT' ? 'nullable' : 'required';
         return [
             'name' => 'required',
             'short_description' => 'required',
             'category' => 'required',
             'sub_category' => 'required',
-            'product_sku' => 'required|unique:products,sku_code',
-            'by_price' => 'required',
-            'sale_price' => 'required',
-            'thumbnail' => "$required|image|mimes:jpeg,jpg,png,gif,svg,webp|max:2048",
+            // 'product_sku' => 'required|unique:products,sku_code',
+            'buying_price' => 'required',
+            'selling_price' => 'required',
+            // 'thumbnail' => "$required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048",
         ];
     }
 }

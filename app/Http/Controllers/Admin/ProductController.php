@@ -11,8 +11,8 @@ use App\Models\Product;
 use App\Models\SubCategory;
 use App\Models\Tag;
 use App\Repositories\ProductRepository;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -33,7 +33,6 @@ class ProductController extends Controller
 
     public function store(ProductRequest $request)
     {
-
         ProductRepository::storeByRequest($request);
 
         return to_route('product.index')->withSuccess('Product created successfully');
@@ -42,18 +41,24 @@ class ProductController extends Controller
     public function show(Product $product)
     {
 
-        return view('admin.product.show', compact('product'));
+        $productGalleries = $product->galleries->map(function ($media) {
+            return [
+                'media_id' => $media->id,
+                'src' => $media->gallery_url,
+            ];
+        });
+
+        return view('admin.product.show', compact('product', 'productGalleries'));
     }
 
     public function edit(Product $product)
     {
-        $ProductTagIds = $product->tags->pluck('id')->toArray();
-
+        $productTagIds = $product->tags->pluck('id')->toArray();
         $categories = Category::latest('id')->get();
         $subCategories = SubCategory::latest('id')->get();
         $brands = Brand::latest('id')->get();
         $tags = Tag::latest('id')->get();
-        return view('admin.product.edit', compact('product', 'categories', 'subCategories', 'brands', 'tags', 'ProductTagIds'));
+        return view('admin.product.edit', compact('product', 'categories', 'subCategories', 'brands', 'tags', 'productTagIds'));
     }
 
     public function deleteImage(Media $media)
@@ -62,6 +67,7 @@ class ProductController extends Controller
             Storage::delete($media->src);
         }
         $media->delete();
+
         return response()->json([
             'status' => true,
             'message' => 'Image deleted successfully'
@@ -70,7 +76,9 @@ class ProductController extends Controller
 
     public function update(ProductRequest $request, Product $product)
     {
-        $product = ProductRepository::updateByRequest($request, $product);
-        return to_route('product.index')->withSuccess('Product updated successfully');
+
+        ProductRepository::updateByRequest($request, $product);
+
+        return to_route('product.index')->withSuccess('Product updated successfully!');
     }
 }

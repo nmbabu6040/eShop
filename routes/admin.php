@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\TagController;
+use App\Http\Controllers\Admin\InventoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->group(function () {
@@ -72,5 +73,12 @@ Route::prefix('admin')->group(function () {
         Route::put('/product/{product}/update', 'update')->name('product.update');
         Route::delete('/product/{product}/destroy', 'destroy')->name('product.destroy');
         Route::delete('/product/{media}/deleteImage', 'deleteImage')->name('product.deleteImage');
+    });
+
+    // Product inventor routes
+    Route::controller(InventoryController::class)->group(function () {
+        Route::get('/product/{product}/inventory', 'index')->name('product.inventory');
+        Route::post('/product/{product}/inventory/store', 'store')->name('inventory.store');
+        Route::get('/product/{product}/inventory/edit', 'edit')->name('inventory.edit');
     });
 });
