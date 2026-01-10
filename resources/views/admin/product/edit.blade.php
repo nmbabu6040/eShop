@@ -21,9 +21,8 @@
                             <x-input label="Product Name" name="name" placeholder="Product Name"
                                 value="{{ $product->name }}" />
 
-                            <x-textarea label="Short Description" name="short_description"
-                                placeholder="Short Description..." rows='6'
-                                value="{{ $product->details?->short_description }}" />
+                            <x-textarea label="Short Description" name="shortDescription" placeholder="Short Description..."
+                                rows='6' value="{{ $product->details?->short_description }}" />
                         </div>
                         <div class="col-12">
                             <x-select label="Tags" name="tags[]" placeholder="Select Tags" multiple class="selectTags">
@@ -53,7 +52,7 @@
 
                         </div>
                         <div class="col-md-6 mt-3">
-                            <x-select label="Sub Category" name="sub_category" placeholder="Select Sub Category">
+                            <x-select label="Sub Category" name="subCategory" placeholder="Select Sub Category">
                                 <option value="">Select Sub Category</option>
                                 @foreach ($subCategories ?? [] as $subCategory)
                                     <option value="{{ $subCategory?->id }}"
@@ -69,10 +68,10 @@
                             <div class="d-flex justify-content-between align-items-center gap-2">
                                 <label for="">Product SKU</label>
                             </div>
-                            <input type="text" name="product_sku" id="product_sku" class="form-control"
+                            <input type="text" name="productSku" id="product_sku" class="form-control"
                                 placeholder="Product SKU" value="{{ old('product_sku', $product->sku_code) }}" readonly>
 
-                            @error('product_sku')
+                            @error('productSku')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
@@ -90,13 +89,13 @@
 
 
                         <div class="col-md-6 mt-3">
-                            <x-input type="number" label='Product Buying Price' name="buying_price"
-                                placeholder="Product Buying Price" value="{{ old('buying_price', $product->by_price) }}" />
+                            <x-input type="number" label='Product Buying Price' name="byingPrice"
+                                placeholder="Product Buying Price" value="{{ old('byingPrice', $product->by_price) }}" />
                         </div>
 
                         <div class="col-md-6 mt-3">
-                            <x-input type="number" label='Product Selling Price' name="selling_price"
-                                placeholder="Product Selling Price" value="{{ old('selling_price', $product->price) }}" />
+                            <x-input type="number" label='Product Selling Price' name="salePrice"
+                                placeholder="Product Selling Price" value="{{ old('salePrice', $product->price) }}" />
                         </div>
                     </div>
                 </div>
@@ -110,9 +109,8 @@
                                 placeholder="Description..." value="{!! old('description', $product->details?->description) !!}" />
                         </div>
                         <div class="col-12 mt-3">
-                            <x-textarea label="Additional Information" name="additional_information" class="summernote"
-                                placeholder=" Additional Information..." rows='10'
-                                value="{{ old('additional_information', $product->details?->additional_information) }}" />
+                            <x-textarea label="Additional Information" name="additionalInfo" class="summernote"
+                                placeholder=" Additional Information..." rows='10' value="{!! old('additionalInfo', $product->details?->additional_info) !!}" />
                         </div>
                     </div>
                 </div>
@@ -126,7 +124,7 @@
                             <p>Product Thumbnail</p>
                             <label for="thumbnail">
                                 <img src="{{ $product->thumbnail }}" alt="" class="img-thumbnail"
-                                    id="thumbnail_preview" width="200" height="200">
+                                    id="thumbnail_preview" width="140" height="140">
                             </label>
                             <input type="file" name="thumbnail" id="thumbnail" class="form-control d-none"
                                 onchange="validateImage(this)"> <br>
@@ -141,8 +139,8 @@
                             <div class="upload__box">
                                 <div class="upload__btn-box">
                                     <label class="upload__btn" for="upload">
-                                        <img src="{{ asset('admin/assets/images/default-upload.png') }}" alt=""
-                                            class="img-thumbnail" id="thumbnail_gallery" width="200" height="200">
+                                        <img src="{{ asset('admin/assets/images/upload.png') }}" alt=""
+                                            class="img-thumbnail" id="thumbnail_gallery" width="140" height="140">
                                     </label>
                                 </div>
 
@@ -167,11 +165,11 @@
                 </div>
 
                 <div class="my-4 d-flex justify-content-end align-items-center gap-2">
-                    <a href="{{ route('product.create') }}" class="btn btn-secondary btn-lg mr-2">
+                    <a href="{{ route('product.create') }}" class="btn btn-secondary btn-md mr-2">
                         <i class="fa fa-undo"></i>
                         Reset
                     </a>
-                    <button type="submit" class="btn btn-primary btn-lg">
+                    <button type="submit" class="btn btn-primary btn-md">
                         Submit
                         <i class="fa fa-arrow-right"></i>
                     </button>

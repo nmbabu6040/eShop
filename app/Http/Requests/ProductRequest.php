@@ -24,12 +24,12 @@ class ProductRequest extends FormRequest
         $required = $this->method() == 'PUT' ? 'nullable' : 'required';
         return [
             'name' => 'required',
-            'short_description' => 'required',
+            'shortDescription' => 'required',
             'category' => 'required',
-            'sub_category' => 'required',
-            // 'product_sku' => 'required|unique:products,sku_code',
-            'buying_price' => 'required',
-            'selling_price' => 'required',
+            'subCategory' => 'required',
+            // 'productSku' => 'required|unique:products,sku_code',
+            'byingPrice' => 'required',
+            'salePrice' => 'required',
             // 'thumbnail' => "$required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048",
         ];
     }

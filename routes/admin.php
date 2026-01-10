@@ -79,6 +79,6 @@ Route::prefix('admin')->group(function () {
     Route::controller(InventoryController::class)->group(function () {
         Route::get('/product/{product}/inventory', 'index')->name('product.inventory');
         Route::post('/product/{product}/inventory/store', 'store')->name('inventory.store');
-        Route::get('/product/{product}/inventory/edit', 'edit')->name('inventory.edit');
+        Route::post('/product/{inventory}/update', 'update')->name('inventory.update');
     });
 });

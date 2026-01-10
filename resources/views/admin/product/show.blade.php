@@ -108,14 +108,12 @@
                     <div class="col-12 ">
                         <div class="mt-3">
                             <p>Product Gallery:</p>
-                            <div class="d-flex flex-wrap gap-3">
-                                {{-- প্রোডাক্টের galleries রিলেশনশিপ লুপ করা হচ্ছে --}}
-                                @forelse ($product->galleries as $galleryMedia)
-                                    <img src="{{ asset('storage/' . $galleryMedia->src) }}" alt="Gallery Image"
-                                        width="100" height="100" class="img-thumbnail" style="object-fit: cover;">
-                                @empty
-                                    <p>No gallery images available for this product.</p>
-                                @endforelse
+                            <div class="row">
+                                @foreach ($productGalleries as $gallery)
+                                    <div class="col-sm-6 col-md-3 col-lg-2">
+                                        <img src="{{ $gallery['src'] }}" alt="product gallery" class="w-100">
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -136,27 +134,28 @@
 @push('style')
     <style>
         .sectionCard {
-            padding: 15px;
+            position: relative;
             border: 1px solid #ebebeb;
+            padding: 15px;
             border-radius: 5px;
             margin-bottom: 10px;
-            position: relative;
         }
 
         .sectionTitle {
             position: absolute;
             top: -15px;
             left: 15px;
+            /* font-weight: 600; */
             font-size: 18px;
             padding: 2px 20px;
-            background: #f5f5f5;
+            background: #ededed;
             border-radius: 5px;
         }
     </style>
 @endpush
 
 @push('script')
-    <script>
+    {{-- <script>
         function validateImage(input) {
             const file = input.files[0];
             const errorMessgae = document.getElementById('imageError');
@@ -176,5 +175,5 @@
 
             }
         }
-    </script>
+    </script> --}}
 @endpush

@@ -30,9 +30,9 @@ class ProductRepository extends Repository
 
         $product = self::create([
             'name' => $request->name,
-            'sku_code' => $request->product_sku,
-            'price' => $request->selling_price,
-            'by_price' => $request->buying_price,
+            'sku_code' => $request->productSku,
+            'price' => $request->salePrice,
+            'by_price' => $request->byingPrice,
             'discount' => 0,
             'media_id' => $thumbnail->id,
         ]);
@@ -40,11 +40,11 @@ class ProductRepository extends Repository
         $productDetails = ProductDetails::create([
             'product_id' => $product->id,
             'category_id' => $request->category,
-            'sub_category_id' => $request->sub_category,
+            'sub_category_id' => $request->subCategory,
             'brand_id' => $request->brand,
-            'short_description' => $request->short_description,
+            'short_description' => $request->shortDescription,
             'description' => $request->description,
-            'additional_info' => $request->additional_information,
+            'additional_info' => $request->additionalInfo,
         ]);
 
         $tags = $request->tags;
@@ -77,30 +77,43 @@ class ProductRepository extends Repository
     {
 
         $media = $product->media;
-        // if ($media && $request->hasFile('thumbnail')) {
-        //     $media = MediaRepository::updateByRequest($request->file('thumbnail'), 'product', 'image', $media);
-        // }else if(!$media && $request->hasFile('thumbnail')) {
-        //     $media = MediaRepository::storeByRequest($request->file('thumbnail'), 'product', 'image');
-        // }
+        if ($media && $request->hasFile('thumbnail')) {
+            $media = MediaRepository::updateByRequest($request->file('thumbnail'), 'product', 'image', $media);
+        } else if (!$media && $request->hasFile('thumbnail')) {
+            $media = MediaRepository::storeByRequest($request->file('thumbnail'), 'product', 'image');
+        }
 
         $product->update([
             'name' => $request->name,
-            'price' => $request->selling_price,
-            'by_price' => $request->buying_price,
+            'price' => $request->salePrice,
+            'by_price' => $request->byingPrice,
             'media_id' => $media->id,
         ]);
 
         $product->details->update([
             'category_id' => $request->category,
-            'sub_category_id' => $request->sub_category,
+            'sub_category_id' => $request->subCategory,
             'brand_id' => $request->brand,
-            'short_description' => $request->short_description,
+            'short_description' => $request->shortDescription,
             'description' => $request->description,
-            'additional_info' => $request->additional_information,
+            'additional_info' => $request->additionalInfo,
         ]);
 
         $newTags = $request->tags;
         $product->tags()->sync($newTags);
+
+
+        if ($request->hasFile('images')) {
+            $mediaIds = [];
+
+            foreach ($request->file('images') as $image) {
+                $media = MediaRepository::storeByRequest($image, 'product', 'image');
+                $mediaIds[] = $media->id;
+            }
+
+            // পুরোনো gallery রেখে নতুন যোগ হবে
+            $product->galleries()->syncWithoutDetaching($mediaIds);
+        }
 
         // $images = $request->file('images');
         // $mediaIds = [];

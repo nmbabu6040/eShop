@@ -15,7 +15,7 @@ class InventoryController extends Controller
     {
         $colors = Color::latest('id')->get();
         $sizes = Size::latest('id')->get();
-        $inventories = ProductInventory::with(['color', 'size'])->where('product_id', $product->id)->latest()->get();
+        $inventories = ProductInventory::where('product_id', $product->id)->latest('id')->get();
         return view('admin.product.inventory', compact('product', 'colors', 'sizes', 'inventories'));
     }
 
@@ -27,6 +27,15 @@ class InventoryController extends Controller
             'quantity' => 'required',
         ]);
 
+        $oldInventory = ProductInventory::where('product_id', $request->product_id)->where('color_id', $request->color)->where('size_id', $request->size)->first();
+
+        if ($oldInventory) {
+            $oldInventory->update([
+                'quantity' => $oldInventory->quantity + $request->quantity
+            ]);
+            return back()->withSuccess('Inventory updated successfully');
+        }
+
         ProductInventory::create([
             'product_id' => $request->product_id,
             'color_id' => $request->color,
@@ -35,5 +44,23 @@ class InventoryController extends Controller
         ]);
 
         return back()->withSuccess('Inventory added successfully');
+    }
+
+    public function update(Request $request, ProductInventory $inventory)
+    {
+        $request->validate([
+            'product_id' => 'required',
+            'editColor' => 'required',
+            'editSize' => 'required',
+            'editQuantity' => 'required',
+        ]);
+
+        $inventory->update([
+            'size_id' => $request->editSize,
+            'color_id' => $request->editColor,
+            'quantity' => $request->editQuantity,
+        ]);
+
+        return back()->withSuccess('Inventory updated successfully');
     }
 }
