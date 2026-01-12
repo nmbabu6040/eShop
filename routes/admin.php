@@ -8,9 +8,16 @@ use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\InventoryController;
+use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->group(function () {
+
+    //dashboard routes
+    Route::controller(DashboardController::class)->group(function () {
+        Route::get('/', 'index')->name('admin.root');
+    });
+
     //category routes
     Route::controller(CategoryController::class)->group(function () {
         Route::get('/categories', 'index')->name('category.index');
