@@ -28,6 +28,16 @@ class Category extends Model
         );
     }
 
+    public function subCategories()
+    {
+        // Ekhne SubCategory model-er sathe somporko hobe
+        return $this->hasMany(SubCategory::class, 'category_id');
+        // 'category_id' holo sub_categories table-er oi column jeti category table-er id dhore rakhe
+    }
+
+
+
+
     protected static function boot()
     {
         parent::boot();

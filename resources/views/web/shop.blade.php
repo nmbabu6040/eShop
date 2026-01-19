@@ -61,10 +61,10 @@
                                     <div class="priceFilterSlider">
                                         <form action="#" method="get" class="clearfix">
                                             <!-- <div id="sliderRange"></div>
-                                                                            <div class="pfsWrap">
-                                                                                <label>Price:</label>
-                                                                                <span id="amount"></span>
-                                                                            </div> -->
+                                                                                                                            <div class="pfsWrap">
+                                                                                                                                <label>Price:</label>
+                                                                                                                                <span id="amount"></span>
+                                                                                                                            </div> -->
                                             <div class="d-flex">
                                                 <div class="col-lg-6 pe-2">
                                                     <label for="" class="form-label">Min</label>
@@ -174,81 +174,36 @@
                             <div class="shop-filter-item new-product">
                                 <h2>New Products</h2>
                                 <ul>
-                                    <li>
-                                        <div class="product-card">
-                                            <div class="card-image">
-                                                <div class="image">
-                                                    <img src="{{ asset('web/assets/images/new-product/1.png') }}"
-                                                        alt="">
+                                    @foreach ($newProduct ?? [] as $newItem)
+                                        <li>
+                                            <div class="product-card">
+                                                <div class="card-image">
+                                                    <div class="image" style="max-height: 100%">
+                                                        <img src="{{ $newItem?->thumbnail }}"
+                                                            class="img-fluid w-100 h-100" style="object-fit: cover"
+                                                            alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="content">
+                                                    <h3><a
+                                                            href="{{ route('shop') }}">{{ Str::limit($newItem?->name, 10) }}</a>
+                                                    </h3>
+                                                    <div class="rating-product">
+                                                        <i class="fi flaticon-star"></i>
+                                                        <i class="fi flaticon-star"></i>
+                                                        <i class="fi flaticon-star"></i>
+                                                        <i class="fi flaticon-star"></i>
+                                                        <i class="fi flaticon-star"></i>
+                                                        <span>30</span>
+                                                    </div>
+                                                    <div class="price">
+                                                        <span class="present-price">${{ $newItem?->price }}</span>
+                                                        <del class="old-price">$200.00</del>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="content">
-                                                <h3><a href="{{ route('shop') }}">Stylish Pink Coat</a></h3>
-                                                <div class="rating-product">
-                                                    <i class="fi flaticon-star"></i>
-                                                    <i class="fi flaticon-star"></i>
-                                                    <i class="fi flaticon-star"></i>
-                                                    <i class="fi flaticon-star"></i>
-                                                    <i class="fi flaticon-star"></i>
-                                                    <span>30</span>
-                                                </div>
-                                                <div class="price">
-                                                    <span class="present-price">$120.00</span>
-                                                    <del class="old-price">$200.00</del>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="product-card">
-                                            <div class="card-image">
-                                                <div class="image">
-                                                    <img src="{{ asset('web/assets/images/new-product/2.png') }}"
-                                                        alt="">
-                                                </div>
-                                            </div>
-                                            <div class="content">
-                                                <h3><a href="{{ route('shop') }}">Blue Bag</a></h3>
-                                                <div class="rating-product">
-                                                    <i class="fi flaticon-star"></i>
-                                                    <i class="fi flaticon-star"></i>
-                                                    <i class="fi flaticon-star"></i>
-                                                    <i class="fi flaticon-star"></i>
-                                                    <i class="fi flaticon-star"></i>
-                                                    <span>30</span>
-                                                </div>
-                                                <div class="price">
-                                                    <span class="present-price">$120.00</span>
-                                                    <del class="old-price">$200.00</del>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="product-card">
-                                            <div class="card-image">
-                                                <div class="image">
-                                                    <img src="{{ asset('web/assets/images/new-product/3.png') }}"
-                                                        alt="">
-                                                </div>
-                                            </div>
-                                            <div class="content">
-                                                <h3><a href="{{ route('shop') }}">Kids Blue Shoes</a></h3>
-                                                <div class="rating-product">
-                                                    <i class="fi flaticon-star"></i>
-                                                    <i class="fi flaticon-star"></i>
-                                                    <i class="fi flaticon-star"></i>
-                                                    <i class="fi flaticon-star"></i>
-                                                    <i class="fi flaticon-star"></i>
-                                                    <span>30</span>
-                                                </div>
-                                                <div class="price">
-                                                    <span class="present-price">$120.00</span>
-                                                    <del class="old-price">$200.00</del>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
+                                        </li>
+                                    @endforeach
                                 </ul>
                             </div>
                         </div>
@@ -321,8 +276,7 @@
                             <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="product-item">
                                     <div class="image">
-                                        <img src="{{ asset('web/assets/images/interest-product/2.png') }}"
-                                            alt="">
+                                        <img src="{{ asset('web/assets/images/interest-product/2.png') }}" alt="">
                                         <div class="tag sale">Sale</div>
                                     </div>
                                     <div class="text">

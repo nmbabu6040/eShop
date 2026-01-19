@@ -71,70 +71,19 @@
                 </div>
             </div>
             <div class="featured-categorie-slider owl-carousel">
-                <div class="featured-item">
-                    <div class="images">
-                        <img src="{{ asset('web/assets/images/featured-categorie/1.png') }}" alt="">
+                @foreach ($categories as $category)
+                    <div class="featured-item">
+                        <div class="images" style="max-height: 100%">
+                            <img src="{{ $category?->thumbnail }}" alt="" class="img-fluid w-100 h-100"
+                                style="object-fit: cover">
+                        </div>
+                        <div class="text">
+                            <h2><a href="{{ route('shop') }}">{{ $category?->name }}</a></h2>
+                        </div>
                     </div>
-                    <div class="text">
-                        <h2><a href="{{ route('shop') }}">Sneakers</a></h2>
-                    </div>
-                </div>
-                <div class="featured-item">
-                    <div class="images">
-                        <img src="{{ asset('web/assets/images/featured-categorie/2.png') }}" alt="">
-                    </div>
-                    <div class="text">
-                        <h2><a href="{{ route('shop') }}">Cosmetics</a></h2>
-                    </div>
-                </div>
-                <div class="featured-item">
-                    <div class="images">
-                        <img src="{{ asset('web/assets/images/featured-categorie/3.png') }}" alt="">
-                    </div>
-                    <div class="text">
-                        <h2><a href="{{ route('shop') }}">Bags</a></h2>
-                    </div>
-                </div>
-                <div class="featured-item">
-                    <div class="images">
-                        <img src="{{ asset('web/assets/images/featured-categorie/4.png') }}" alt="">
-                    </div>
-                    <div class="text">
-                        <h2><a href="{{ route('shop') }}">Jackets</a></h2>
-                    </div>
-                </div>
-                <div class="featured-item">
-                    <div class="images">
-                        <img src="{{ asset('web/assets/images/featured-categorie/5.png') }}" alt="">
-                    </div>
-                    <div class="text">
-                        <h2><a href="{{ route('shop') }}">Skin Care</a></h2>
-                    </div>
-                </div>
-                <div class="featured-item">
-                    <div class="images">
-                        <img src="{{ asset('web/assets/images/featured-categorie/6.png') }}" alt="">
-                    </div>
-                    <div class="text">
-                        <h2><a href="{{ route('shop') }}">Jewelry</a></h2>
-                    </div>
-                </div>
-                <div class="featured-item">
-                    <div class="images">
-                        <img src="{{ asset('web/assets/images/featured-categorie/7.png') }}" alt="">
-                    </div>
-                    <div class="text">
-                        <h2><a href="{{ route('shop') }}">Dress</a></h2>
-                    </div>
-                </div>
-                <div class="featured-item">
-                    <div class="images">
-                        <img src="{{ asset('web/assets/images/featured-categorie/8.png') }}" alt="">
-                    </div>
-                    <div class="text">
-                        <h2><a href="{{ route('shop') }}">Kids</a></h2>
-                    </div>
-                </div>
+                @endforeach
+
+
             </div>
         </div>
     </section>
@@ -768,72 +717,33 @@
                 <div class="col-lg-4 col-md-6 col-12">
                     <div class="highlight-wrap">
                         <h2>Recently added</h2>
-                        <div class="product-card">
-                            <div class="card-image">
-                                <div class="image">
-                                    <img src="{{ asset('web/assets/images/recently-added/1.png') }}" alt="">
+                        @foreach ($recentlyAdd ?? [] as $recentProduct)
+                            <div class="product-card">
+                                <div class="card-image">
+                                    <div class="image" style="max-height: 100%">
+                                        <img src="{{ $recentProduct?->thumbnail }}" alt=""
+                                            class="img-fluid w-100 h-100" style="object-fit: cover">
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    <h3><a href="{{ route('shop') }}">{{ Str::limit($recentProduct?->name, 20) }}</a>
+                                    </h3>
+                                    <div class="rating-product">
+                                        <i class="fi flaticon-star"></i>
+                                        <i class="fi flaticon-star"></i>
+                                        <i class="fi flaticon-star"></i>
+                                        <i class="fi flaticon-star"></i>
+                                        <i class="fi flaticon-star"></i>
+                                        <span>120</span>
+                                    </div>
+                                    <div class="price">
+                                        <span class="present-price">${{ $recentProduct?->price }}</span>
+                                        <del class="old-price">$150.00</del>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="content">
-                                <h3><a href="{{ route('shop') }}">Kids Shoes</a></h3>
-                                <div class="rating-product">
-                                    <i class="fi flaticon-star"></i>
-                                    <i class="fi flaticon-star"></i>
-                                    <i class="fi flaticon-star"></i>
-                                    <i class="fi flaticon-star"></i>
-                                    <i class="fi flaticon-star"></i>
-                                    <span>120</span>
-                                </div>
-                                <div class="price">
-                                    <span class="present-price">$120.00</span>
-                                    <del class="old-price">$150.00</del>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-card">
-                            <div class="card-image">
-                                <div class="image">
-                                    <img src="{{ asset('web/assets/images/recently-added/2.png') }}" alt="">
-                                </div>
-                            </div>
-                            <div class="content">
-                                <h3><a href="{{ route('shop') }}">Stylish Earrings</a></h3>
-                                <div class="rating-product">
-                                    <i class="fi flaticon-star"></i>
-                                    <i class="fi flaticon-star"></i>
-                                    <i class="fi flaticon-star"></i>
-                                    <i class="fi flaticon-star"></i>
-                                    <i class="fi flaticon-star"></i>
-                                    <span>230</span>
-                                </div>
-                                <div class="price">
-                                    <span class="present-price">$150.00</span>
-                                    <del class="old-price">$200.00</del>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-card">
-                            <div class="card-image">
-                                <div class="image">
-                                    <img src="{{ asset('web/assets/images/recently-added/3.png') }}" alt="">
-                                </div>
-                            </div>
-                            <div class="content">
-                                <h3><a href="{{ route('shop') }}">Yellow Hats</a></h3>
-                                <div class="rating-product">
-                                    <i class="fi flaticon-star"></i>
-                                    <i class="fi flaticon-star"></i>
-                                    <i class="fi flaticon-star"></i>
-                                    <i class="fi flaticon-star"></i>
-                                    <i class="fi flaticon-star"></i>
-                                    <span>130</span>
-                                </div>
-                                <div class="price">
-                                    <span class="present-price">$170.00</span>
-                                    <del class="old-price">$250.00</del>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
+
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 col-12">
