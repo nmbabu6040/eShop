@@ -19,7 +19,7 @@
                     <div class="row mt-4">
                         <div class="col-12">
                             <x-input label="Product Name" name="name" placeholder="Product Name"
-                                value="{{ $product->name }}" />
+                                value="{{ $product?->name }}" />
 
                             <x-textarea label="Short Description" name="shortDescription" placeholder="Short Description..."
                                 rows='6' value="{{ $product->details?->short_description }}" />
@@ -56,7 +56,7 @@
                                 <option value="">Select Sub Category</option>
                                 @foreach ($subCategories ?? [] as $subCategory)
                                     <option value="{{ $subCategory?->id }}"
-                                        {{ old('sub_category', $product->details?->sub_category_id) == $subCategory?->id ? 'selected' : '' }}>
+                                        {{ old('subCategory', $product->details?->sub_category_id) == $subCategory?->id ? 'selected' : '' }}>
                                         {{ $subCategory?->name }}</option>
                                 @endforeach
                             </x-select>
@@ -148,7 +148,7 @@
                                     class="upload__inputfile d-none" id="upload">
 
                                 <div class="upload__img-wrap">
-                                    @foreach ($product->galleries ?? [] as $image)
+                                    @foreach ($product->gelleries ?? [] as $image)
                                         <div class='upload__img-box'>
                                             <div class='img-bg'
                                                 style='background-image:url({{ Storage::url($image['src']) }})'

@@ -41,18 +41,25 @@ class ProductController extends Controller
     public function show(Product $product)
     {
 
-        $productGalleries = $product->galleries->map(function ($media) {
+        $productGelleries = $product->gelleries->map(function ($media) {
             return [
                 'media_id' => $media->id,
                 'src' => $media->gallery_url,
             ];
         });
 
-        return view('admin.product.show', compact('product', 'productGalleries'));
+        return view('admin.product.show', compact('product', 'productGelleries'));
     }
 
     public function edit(Product $product)
     {
+        $product = $product->fresh([
+            'details',
+            'tags',
+            'gelleries',
+            'media'
+        ]);
+
         $productTagIds = $product->tags->pluck('id')->toArray();
         $categories = Category::latest('id')->get();
         $subCategories = SubCategory::latest('id')->get();

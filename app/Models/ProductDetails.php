@@ -8,6 +8,8 @@ class ProductDetails extends Model
 {
     protected $guarded = ['id'];
 
+    /* ================= Relations ================= */
+
     public function product()
     {
         return $this->belongsTo(Product::class);

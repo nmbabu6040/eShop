@@ -109,7 +109,7 @@
                         <div class="mt-3">
                             <p>Product Gallery:</p>
                             <div class="row">
-                                @foreach ($productGalleries as $gallery)
+                                @foreach ($productGelleries as $gallery)
                                     <div class="col-sm-6 col-md-3 col-lg-2">
                                         <img src="{{ $gallery['src'] }}" alt="product gallery" class="w-100">
                                     </div>

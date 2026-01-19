@@ -60,7 +60,7 @@ class ProductRepository extends Repository
         }
 
         if ($mediaIds > 0) {
-            $product->galleries()->sync($mediaIds);
+            $product->gelleries()->sync($mediaIds);
         }
 
         return $product;
@@ -73,36 +73,53 @@ class ProductRepository extends Repository
         return $discount;
     }
 
-    public static function updateByRequest($request, $product)
+    public static function updateByRequest($request, Product $product): Product
     {
-
+        /* ---------- Thumbnail ---------- */
         $media = $product->media;
-        if ($media && $request->hasFile('thumbnail')) {
-            $media = MediaRepository::updateByRequest($request->file('thumbnail'), 'product', 'image', $media);
-        } else if (!$media && $request->hasFile('thumbnail')) {
-            $media = MediaRepository::storeByRequest($request->file('thumbnail'), 'product', 'image');
+
+        if ($request->hasFile('thumbnail')) {
+            if ($media) {
+                $media = MediaRepository::updateByRequest(
+                    $request->file('thumbnail'),
+                    'product',
+                    'image',
+                    $media
+                );
+            } else {
+                $media = MediaRepository::storeByRequest(
+                    $request->file('thumbnail'),
+                    'product',
+                    'image'
+                );
+            }
         }
 
+        /* ---------- Product ---------- */
         $product->update([
-            'name' => $request->name,
-            'price' => $request->salePrice,
-            'by_price' => $request->byingPrice,
-            'media_id' => $media->id,
+            'name'      => $request->name,
+            'price'     => $request->salePrice,
+            'by_price'  => $request->byingPrice,
+            'media_id'  => $media?->id,
         ]);
 
-        $product->details->update([
-            'category_id' => $request->category,
-            'sub_category_id' => $request->subCategory,
-            'brand_id' => $request->brand,
-            'short_description' => $request->shortDescription,
-            'description' => $request->description,
-            'additional_info' => $request->additionalInfo,
-        ]);
+        /* ---------- Product Details (NO NULL ERROR EVER) ---------- */
+        $product->details()->updateOrCreate(
+            ['product_id' => $product->id],
+            [
+                'category_id'        => $request->category,
+                'sub_category_id'    => $request->subCategory,
+                'brand_id'           => $request->brand,
+                'short_description'  => $request->shortDescription,
+                'description'        => $request->description,
+                'additional_info'    => $request->additionalInfo,
+            ]
+        );
 
-        $newTags = $request->tags;
-        $product->tags()->sync($newTags);
+        /* ---------- Tags ---------- */
+        $product->tags()->sync($request->tags ?? []);
 
-
+        /* ---------- Galleries ---------- */
         if ($request->hasFile('images')) {
             $mediaIds = [];
 
@@ -111,41 +128,30 @@ class ProductRepository extends Repository
                 $mediaIds[] = $media->id;
             }
 
-            // পুরোনো gallery রেখে নতুন যোগ হবে
-            $product->galleries()->syncWithoutDetaching($mediaIds);
+            $product->gelleries()->syncWithoutDetaching($mediaIds);
         }
-
-        // $images = $request->file('images');
-        // $mediaIds = [];
-        // if ($images) {
-        //     foreach ($images as $image) {
-        //        $media = MediaRepository::storeByRequest($image, 'product', 'image');
-        //        $mediaIds[] = $media->id;
-        //     }
-        // }
-
-        // if (count($mediaIds) > 0) {
-        //   $product->galleries()->sync($mediaIds);
-        // }
 
         return $product;
     }
 
-    public static function ProductGalleryStoreOrUpdate($request, $id)
+
+    public static function productGalleryStoreOrUpdate(Request $request, int $id): Product
     {
-        $product = Product::find($id);
-        $images = $request->file('images');
-        $mediaIds = [];
-        if ($images) {
-            foreach ($images as $image) {
-                $media = MediaRepository::storeByRequest($image, 'product', 'image');
-                $mediaIds[] = $media->id;
-            }
+        $product = Product::findOrFail($id);
+
+        if (!$request->hasFile('images')) {
+            return $product;
         }
 
-        if (count($mediaIds) > 0) {
-            $product->galleries()->sync($mediaIds);
+        $mediaIds = [];
+
+        foreach ($request->file('images') as $image) {
+            $media = MediaRepository::storeByRequest($image, 'product', 'image');
+            $mediaIds[] = $media->id;
         }
+
+        // পুরোনো gallery থাকবে, নতুন add হবে
+        $product->gelleries()->syncWithoutDetaching($mediaIds);
 
         return $product;
     }
