@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Color;
+use App\Models\Size;
+use App\Models\Tag;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -24,9 +27,14 @@ class HomeController extends Controller
 
     public function shop()
     {
-        $products = Product::get();
-        $newProduct = $products->sortByDesc('id')->take(3);
-        return view('web.shop', compact('products', 'newProduct'));
+        $allProducts = Product::get();
+        $newProducts = $allProducts->sortByDesc('created_at')->take(3);
+        $products = Product::latest()->paginate(20)->withQueryString();
+        $categories = Category::latest('id')->get();
+        $colors = Color::latest('id')->get();
+        $sizes = Size::latest('id')->get();
+        $tags = Tag::latest('id')->get();
+        return view('web.shop', compact('newProducts', 'products', 'categories', 'colors', 'sizes', 'tags'));
     }
 
     public function faq()

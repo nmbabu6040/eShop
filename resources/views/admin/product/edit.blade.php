@@ -88,14 +88,20 @@
                         </div>
 
 
-                        <div class="col-md-6 mt-3">
+                        <div class="col-md-4 mt-3">
                             <x-input type="number" label='Product Buying Price' name="byingPrice"
                                 placeholder="Product Buying Price" value="{{ old('byingPrice', $product->by_price) }}" />
                         </div>
 
-                        <div class="col-md-6 mt-3">
+                        <div class="col-md-4 mt-3">
                             <x-input type="number" label='Product Selling Price' name="salePrice"
                                 placeholder="Product Selling Price" value="{{ old('salePrice', $product->price) }}" />
+                        </div>
+
+                        <div class="col-md-4 mt-3">
+                            <x-input type="number" label='Product Discount Price' name="discount_price"
+                                placeholder="Product Discount Price"
+                                value="{{ old('discount_price', $product->discount_price) }}" />
                         </div>
                     </div>
                 </div>

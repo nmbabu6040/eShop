@@ -737,8 +737,13 @@
                                         <span>120</span>
                                     </div>
                                     <div class="price">
-                                        <span class="present-price">${{ $recentProduct?->price }}</span>
-                                        <del class="old-price">$150.00</del>
+
+                                        @if ($recentProduct?->discount_price && $recentProduct?->discount_price > 0)
+                                            <span class="present-price">${{ $recentProduct?->discount_price }}</span>
+                                            <del class="old-price">${{ $recentProduct?->price }}</del>
+                                        @else
+                                            <span class="present-price">${{ $recentProduct?->price }}</span>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

@@ -28,12 +28,17 @@ class ProductRepository extends Repository
             $thumbnail = MediaRepository::storeByRequest($request->file('thumbnail'), 'product', 'image');
         }
 
+        $discount = 0;
+        if ($request->discount_price) {
+            $discount = ($request->salePrice - $request->discount_price) / $request->salePrice * 100;
+        }
         $product = self::create([
             'name' => $request->name,
             'sku_code' => $request->productSku,
-            'price' => $request->salePrice,
             'by_price' => $request->byingPrice,
-            'discount' => 0,
+            'price' => $request->salePrice,
+            'discount_price' => $request->discount_price,
+            'discount' => $discount ?? 0,
             'media_id' => $thumbnail->id,
         ]);
 
@@ -66,12 +71,12 @@ class ProductRepository extends Repository
         return $product;
     }
 
-    public function discountPercentage($byPrice, $selPrice)
-    {
+    // public function discountPercentage($byPrice, $selPrice)
+    // {
 
-        $discount = (($byPrice - $selPrice) / $byPrice) * 100;
-        return $discount;
-    }
+    //     $discount = (($byPrice - $selPrice) / $byPrice) * 100;
+    //     return $discount;
+    // }
 
     public static function updateByRequest($request, Product $product): Product
     {
@@ -96,10 +101,17 @@ class ProductRepository extends Repository
         }
 
         /* ---------- Product ---------- */
+        $discount = 0;
+        if ($request->discount_price) {
+            $discount = ($request->salePrice - $request->discount_price) / $request->salePrice * 100;
+        }
+
         $product->update([
             'name'      => $request->name,
-            'price'     => $request->salePrice,
             'by_price'  => $request->byingPrice,
+            'price'     => $request->salePrice,
+            'discount'  => $discount,
+            'discount_price'  => $request->discount_price,
             'media_id'  => $media?->id,
         ]);
 

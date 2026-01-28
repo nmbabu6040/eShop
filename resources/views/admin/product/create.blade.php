@@ -75,13 +75,18 @@
                                 @endforeach
                             </x-select>
                         </div>
-                        <div class="col-md-6 mb-4">
+                        <div class="col-md-4 mb-4">
                             <x-input type="number" name="byingPrice" placeholder="Product Buying Price"
                                 label="Product Buying Price" class="form-control "></x-input>
                         </div>
-                        <div class="col-md-6 mb-4">
+                        <div class="col-md-4 mb-4">
                             <x-input type="number" name="salePrice" placeholder="Product Sale Price"
                                 label="Product Sale Price" class="form-control"></x-input>
+                        </div>
+
+                        <div class="col-md-4 mb-4">
+                            <x-input type="number" label='Product Discount Price' name="discount_price"
+                                placeholder="Product Discount Price" />
                         </div>
                     </div>
                 </div>
