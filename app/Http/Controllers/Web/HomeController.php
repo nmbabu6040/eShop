@@ -27,14 +27,15 @@ class HomeController extends Controller
 
     public function shop()
     {
-        $allProducts = Product::get();
-        $newProducts = $allProducts->sortByDesc('created_at')->take(3);
+
+        $newProducts = Product::latest()->take(8)->get();
         $products = Product::latest()->paginate(20)->withQueryString();
+        $totalProducts = Product::count();
         $categories = Category::latest('id')->get();
         $colors = Color::latest('id')->get();
-        $sizes = Size::latest('id')->get();
+        $sizes = Size::latest('id')->take(10)->get();
         $tags = Tag::latest('id')->get();
-        return view('web.shop', compact('newProducts', 'products', 'categories', 'colors', 'sizes', 'tags'));
+        return view('web.shop', compact('newProducts', 'products', 'categories', 'colors', 'sizes', 'tags', 'totalProducts'));
     }
 
     public function faq()
@@ -62,8 +63,13 @@ class HomeController extends Controller
         return view('web.product');
     }
 
-    public function singleProduct()
+    public function singleProduct($slug)
     {
-        return view('web.product-single');
+        $product = Product::where('slug', $slug)->first();
+        $colorIds = $product->inventories->pluck('color_id')->toArray();
+        $productColors = Color::whereIn('id', $colorIds)->get();
+        $sizeIds = $product->inventories->pluck('size_id')->toArray();
+        $productSizes = Size::whereIn('id', $sizeIds)->get();
+        return view('web.product-single', compact('product', 'productColors', 'productSizes'));
     }
 }

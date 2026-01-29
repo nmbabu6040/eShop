@@ -78,7 +78,7 @@
                                 style="object-fit: cover">
                         </div>
                         <div class="text">
-                            <h2><a href="{{ route('shop') }}">{{ $category?->name }}</a></h2>
+                            <h2><a href="">{{ $category?->name }}</a></h2>
                         </div>
                     </div>
                 @endforeach
@@ -148,7 +148,7 @@
                                 <div class="tag new">New</div>
                             </div>
                             <div class="text">
-                                <h2><a href="{{ route('singleProduct') }}">Wireless Headphones</a></h2>
+                                <h2><a href="">Wireless Headphones</a></h2>
                                 <div class="rating-product">
                                     <i class="fi flaticon-star"></i>
                                     <i class="fi flaticon-star"></i>
@@ -174,7 +174,7 @@
                                 <div class="tag sale">Sale</div>
                             </div>
                             <div class="text">
-                                <h2><a href="{{ route('singleProduct') }}">Blue Bag with Lock</a></h2>
+                                <h2><a href="">Blue Bag with Lock</a></h2>
                                 <div class="rating-product">
                                     <i class="fi flaticon-star"></i>
                                     <i class="fi flaticon-star"></i>
@@ -200,7 +200,7 @@
                                 <div class="tag new">New</div>
                             </div>
                             <div class="text">
-                                <h2><a href="{{ route('singleProduct') }}">Stylish Pink Top</a></h2>
+                                <h2><a href="">Stylish Pink Top</a></h2>
                                 <div class="rating-product">
                                     <i class="fi flaticon-star"></i>
                                     <i class="fi flaticon-star"></i>
@@ -226,7 +226,7 @@
                                 <div class="tag sale">Sale</div>
                             </div>
                             <div class="text">
-                                <h2><a href="{{ route('singleProduct') }}">Brown Com Boots</a></h2>
+                                <h2><a href="">Brown Com Boots</a></h2>
                                 <div class="rating-product">
                                     <i class="fi flaticon-star"></i>
                                     <i class="fi flaticon-star"></i>
@@ -252,7 +252,7 @@
                                 <div class="tag new">New</div>
                             </div>
                             <div class="text">
-                                <h2><a href="{{ route('singleProduct') }}">Winter Sweter</a></h2>
+                                <h2><a href="">Winter Sweter</a></h2>
                                 <div class="rating-product">
                                     <i class="fi flaticon-star"></i>
                                     <i class="fi flaticon-star"></i>
@@ -278,7 +278,7 @@
                                 <div class="tag sale">Sale</div>
                             </div>
                             <div class="text">
-                                <h2><a href="{{ route('singleProduct') }}">Blue Kids Shoes</a></h2>
+                                <h2><a href="">Blue Kids Shoes</a></h2>
                                 <div class="rating-product">
                                     <i class="fi flaticon-star"></i>
                                     <i class="fi flaticon-star"></i>
@@ -304,7 +304,7 @@
                                 <div class="tag new">New</div>
                             </div>
                             <div class="text">
-                                <h2><a href="{{ route('singleProduct') }}">Stylish Bag</a></h2>
+                                <h2><a href="">Stylish Bag</a></h2>
                                 <div class="rating-product">
                                     <i class="fi flaticon-star"></i>
                                     <i class="fi flaticon-star"></i>
@@ -330,7 +330,7 @@
                                 <div class="tag sale">Sale</div>
                             </div>
                             <div class="text">
-                                <h2><a href="{{ route('singleProduct') }}">Finger Rings</a></h2>
+                                <h2><a href="">Finger Rings</a></h2>
                                 <div class="rating-product">
                                     <i class="fi flaticon-star"></i>
                                     <i class="fi flaticon-star"></i>
@@ -447,7 +447,7 @@
                                     <img src="{{ asset('web/assets/images/special-product-1.jpg') }}" alt="">
                                 </div>
                                 <div class="text">
-                                    <h2><a href="{{ route('singleProduct') }}">Jewelry Sets</a></h2>
+                                    <h2><a href="">Jewelry Sets</a></h2>
                                     <div class="rating-product">
                                         <i class="fi flaticon-star"></i>
                                         <i class="fi flaticon-star"></i>
@@ -476,7 +476,7 @@
                                     <img src="{{ asset('web/assets/images/special-product-2.jpg') }}" alt="">
                                 </div>
                                 <div class="text">
-                                    <h2><a href="{{ route('singleProduct') }}">White Shoe</a></h2>
+                                    <h2><a href="">White Shoe</a></h2>
                                     <div class="rating-product">
                                         <i class="fi flaticon-star"></i>
                                         <i class="fi flaticon-star"></i>
@@ -519,7 +519,7 @@
                         <div class="tag new">New</div>
                     </div>
                     <div class="text">
-                        <h2><a href="{{ route('singleProduct') }}">Pink Baby Shoes</a></h2>
+                        <h2><a href="">Pink Baby Shoes</a></h2>
                         <div class="rating-product">
                             <i class="fi flaticon-star"></i>
                             <i class="fi flaticon-star"></i>
@@ -543,7 +543,7 @@
                         <div class="tag sale">Sale</div>
                     </div>
                     <div class="text">
-                        <h2><a href="{{ route('singleProduct') }}">Earrings</a></h2>
+                        <h2><a href="">Earrings</a></h2>
                         <div class="rating-product">
                             <i class="fi flaticon-star"></i>
                             <i class="fi flaticon-star"></i>
@@ -567,7 +567,7 @@
                         <div class="tag new">New</div>
                     </div>
                     <div class="text">
-                        <h2><a href="{{ route('singleProduct') }}">Stylish Pink Bag</a></h2>
+                        <h2><a href="">Stylish Pink Bag</a></h2>
                         <div class="rating-product">
                             <i class="fi flaticon-star"></i>
                             <i class="fi flaticon-star"></i>
@@ -591,7 +591,7 @@
                         <div class="tag sale">Sale</div>
                     </div>
                     <div class="text">
-                        <h2><a href="{{ route('singleProduct') }}">Orange Top</a></h2>
+                        <h2><a href="">Orange Top</a></h2>
                         <div class="rating-product">
                             <i class="fi flaticon-star"></i>
                             <i class="fi flaticon-star"></i>
@@ -616,7 +616,7 @@
 
                     </div>
                     <div class="text">
-                        <h2><a href="{{ route('singleProduct') }}">Wireless Headphones</a></h2>
+                        <h2><a href="">Wireless Headphones</a></h2>
                         <div class="rating-product">
                             <i class="fi flaticon-star"></i>
                             <i class="fi flaticon-star"></i>
@@ -653,7 +653,7 @@
                                 </div>
                             </div>
                             <div class="content">
-                                <h3><a href="{{ route('shop') }}">Yellow Ladies Bag </a></h3>
+                                <h3><a href="">Yellow Ladies Bag </a></h3>
                                 <div class="rating-product">
                                     <i class="fi flaticon-star"></i>
                                     <i class="fi flaticon-star"></i>
@@ -675,7 +675,7 @@
                                 </div>
                             </div>
                             <div class="content">
-                                <h3><a href="{{ route('shop') }}">Pink Shoes</a></h3>
+                                <h3><a href="">Pink Shoes</a></h3>
                                 <div class="rating-product">
                                     <i class="fi flaticon-star"></i>
                                     <i class="fi flaticon-star"></i>
@@ -697,7 +697,7 @@
                                 </div>
                             </div>
                             <div class="content">
-                                <h3><a href="{{ route('shop') }}">Parple Pant</a></h3>
+                                <h3><a href="">Parple Pant</a></h3>
                                 <div class="rating-product">
                                     <i class="fi flaticon-star"></i>
                                     <i class="fi flaticon-star"></i>
@@ -726,7 +726,8 @@
                                     </div>
                                 </div>
                                 <div class="content">
-                                    <h3><a href="{{ route('shop') }}">{{ Str::limit($recentProduct?->name, 20) }}</a>
+                                    <h3><a
+                                            href="{{ route('singleProduct', $recentProduct?->slug) }}">{{ Str::limit($recentProduct?->name, 20) }}</a>
                                     </h3>
                                     <div class="rating-product">
                                         <i class="fi flaticon-star"></i>
@@ -761,7 +762,7 @@
                                 </div>
                             </div>
                             <div class="content">
-                                <h3><a href="{{ route('shop') }}">Kids Shoes</a></h3>
+                                <h3><a href="">Kids Shoes</a></h3>
                                 <div class="rating-product">
                                     <i class="fi flaticon-star"></i>
                                     <i class="fi flaticon-star"></i>
@@ -783,7 +784,7 @@
                                 </div>
                             </div>
                             <div class="content">
-                                <h3><a href="{{ route('shop') }}">Stylish Earrings</a></h3>
+                                <h3><a href="">Stylish Earrings</a></h3>
                                 <div class="rating-product">
                                     <i class="fi flaticon-star"></i>
                                     <i class="fi flaticon-star"></i>
@@ -805,7 +806,7 @@
                                 </div>
                             </div>
                             <div class="content">
-                                <h3><a href="{{ route('shop') }}">Yellow Hats</a></h3>
+                                <h3><a href="">Yellow Hats</a></h3>
                                 <div class="rating-product">
                                     <i class="fi flaticon-star"></i>
                                     <i class="fi flaticon-star"></i>

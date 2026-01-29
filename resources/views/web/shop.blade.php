@@ -54,10 +54,10 @@
                                     <div class="priceFilterSlider">
                                         <form action="#" method="get" class="clearfix">
                                             <!-- <div id="sliderRange"></div>
-                                                                                                                                                                                                                                                                                                                    <div class="pfsWrap">
-                                                                                                                                                                                                                                                                                                                        <label>Price:</label>
-                                                                                                                                                                                                                                                                                                                        <span id="amount"></span>
-                                                                                                                                                                                                                                                                                                                    </div> -->
+                                                                                                                                                                                                                                                                                                                                            <div class="pfsWrap">
+                                                                                                                                                                                                                                                                                                                                                <label>Price:</label>
+                                                                                                                                                                                                                                                                                                                                                <span id="amount"></span>
+                                                                                                                                                                                                                                                                                                                                            </div> -->
                                             <div class="d-flex">
                                                 <div class="col-lg-6 pe-2">
                                                     <label for="" class="form-label">Min</label>
@@ -129,7 +129,7 @@
                                                 </div>
                                                 <div class="content">
                                                     <h3><a
-                                                            href="{{ route('shop') }}">{{ Str::limit($newItem?->name, 10) }}</a>
+                                                            href="{{ route('singleProduct', $newItem?->slug) }}">{{ Str::limit($newItem?->name, 10) }}</a>
                                                     </h3>
                                                     <div class="rating-product">
                                                         <i class="fi flaticon-star"></i>
@@ -171,7 +171,7 @@
                 <div class="col-lg-8">
                     <div class="shop-section-top-inner">
                         <div class="shoping-product">
-                            <p>We found <span>10 items</span> for you!</p>
+                            <p>We found <span>{{ $totalProducts ?? 0 }} items</span> for you!</p>
                         </div>
                         <div class="short-by">
                             <ul>
@@ -200,7 +200,7 @@
                                         </div>
                                         <div class="text">
                                             <h2><a
-                                                    href="{{ route('singleProduct') }}">{{ str::limit($product?->name, 20) }}</a>
+                                                    href="{{ route('singleProduct', $product?->slug) }}">{{ str::limit($product?->name, 20) }}</a>
                                             </h2>
                                             <div class="rating-product">
                                                 <i class="fi flaticon-star"></i>
@@ -219,7 +219,8 @@
                                                 @endif
                                             </div>
                                             <div class="shop-btn">
-                                                <a class="theme-btn-s2" href="{{ route('shop') }}">Shop Now</a>
+                                                <a class="theme-btn-s2"
+                                                    href="{{ route('singleProduct', $product?->slug) }}">Shop Now</a>
                                             </div>
                                         </div>
                                     </div>

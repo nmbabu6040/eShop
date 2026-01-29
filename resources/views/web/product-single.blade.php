@@ -24,51 +24,41 @@
     <div class="product-single-section section-padding">
         <div class="container">
             <div class="product-details">
-                <div class="row align-items-center">
+                <div class="row ">
                     <div class="col-lg-5">
                         <div class="product-single-img">
                             <div class="product-active owl-carousel">
                                 <div class="item">
-                                    <img src="{{ asset('web/assets/images/product-details/1.jpg') }}" alt="">
+                                    <img src="{{ $product?->thumbnail }}" alt="">
                                 </div>
-                                <div class="item">
-                                    <img src="{{ asset('web/assets/images/product-details/2.jpg') }}" alt="">
-                                </div>
-                                <div class="item">
-                                    <img src="{{ asset('web/assets/images/product-details/3.jpg') }}" alt="">
-                                </div>
-                                <div class="item">
-                                    <img src="{{ asset('web/assets/images/product-details/1.jpg') }}" alt="">
-                                </div>
-                                <div class="item">
-                                    <img src="{{ asset('web/assets/images/product-details/2.jpg') }}" alt="">
-                                </div>
+                                @foreach ($product?->gelleries ?? [] as $gallery)
+                                    <div class="item">
+                                        <img src="{{ Storage::url($gallery['src']) }}" alt="">
+                                    </div>
+                                @endforeach
                             </div>
                             <div class="product-thumbnil-active  owl-carousel">
                                 <div class="item">
-                                    <img src="{{ asset('web/assets/images/product-details/1.jpg') }}" alt="">
+                                    <img src="{{ $product?->thumbnail }}" alt="">
                                 </div>
-                                <div class="item">
-                                    <img src="{{ asset('web/assets/images/product-details/2.jpg') }}" alt="">
-                                </div>
-                                <div class="item">
-                                    <img src="{{ asset('web/assets/images/product-details/3.jpg') }}" alt="">
-                                </div>
-                                <div class="item">
-                                    <img src="{{ asset('web/assets/images/product-details/1.jpg') }}" alt="">
-                                </div>
-                                <div class="item">
-                                    <img src="{{ asset('web/assets/images/product-details/2.jpg') }}" alt="">
-                                </div>
+                                @foreach ($product?->gelleries ?? [] as $gallery)
+                                    <div class="item">
+                                        <img src="{{ Storage::url($gallery['src']) }}" alt="">
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-7">
                         <div class="product-single-content">
-                            <h2>Stylish Pink Coat</h2>
+                            <h2>{{ $product->name }}</h2>
                             <div class="price">
-                                <span class="present-price">$150.00</span>
-                                <del class="old-price">$200.00</del>
+                                @if ($product?->discount_price && $product?->discount_price > 0)
+                                    <span class="present-price">${{ $product?->discount_price }}</span>
+                                    <del class="old-price">${{ $product?->price }}</del>
+                                @else
+                                    <span class="present-price">${{ $product?->price }}</span>
+                                @endif
                             </div>
                             <div class="rating-product">
                                 <i class="fi flaticon-star"></i>
@@ -78,38 +68,22 @@
                                 <i class="fi flaticon-star"></i>
                                 <span>120</span>
                             </div>
-                            <p>Aliquam proin at turpis sollicitudin faucibus.
-                                Non nunc molestie interdum nec sit duis vitae vestibulum id.
-                                Ipsum non donec egestas quis. A habitant tellus nibh blandit.
-                                Faucibus dictumst nibh et aliquet in auctor. Amet ultrices urna ullamcorper
-                                sagittis.
-                                Hendrerit orci ac fusce pulvinar. Diam tincidunt integer eget morbi diam scelerisque
-                                mattis.
+                            <p>
+                                {{ $product?->details->short_description }}
                             </p>
                             <div class="product-filter-item color">
                                 <div class="color-name">
                                     <span>Color :</span>
                                     <ul>
-                                        <li class="color1"><input id="a1" type="radio" name="color"
-                                                value="30">
-                                            <label for="a1"></label>
-                                        </li>
-                                        <li class="color2"><input id="a2" type="radio" name="color"
-                                                value="30">
-                                            <label for="a2"></label>
-                                        </li>
-                                        <li class="color3"><input id="a3" type="radio" name="color"
-                                                value="30">
-                                            <label for="a3"></label>
-                                        </li>
-                                        <li class="color4"><input id="a4" type="radio" name="color"
-                                                value="30">
-                                            <label for="a4"></label>
-                                        </li>
-                                        <li class="color5"><input id="a5" type="radio" name="color"
-                                                value="30">
-                                            <label for="a5"></label>
-                                        </li>
+
+                                        @foreach ($productColors ?? [] as $color)
+                                            <li class="color1"><input id="a1" type="radio" name="color"
+                                                    value="{{ $color?->id }}">
+                                                <label for="a1"
+                                                    style="background-color: {{ $color?->color_code }};"></label>
+                                            </li>
+                                        @endforeach
+
                                     </ul>
                                 </div>
                             </div>
@@ -117,26 +91,14 @@
                                 <div class="color-name">
                                     <span>Sizes:</span>
                                     <ul>
-                                        <li class="color"><input id="sz1" type="radio" name="size"
-                                                value="30">
-                                            <label for="sz1">S</label>
-                                        </li>
-                                        <li class="color"><input id="sz2" type="radio" name="size"
-                                                value="30">
-                                            <label for="sz2">M</label>
-                                        </li>
-                                        <li class="color"><input id="sz3" type="radio" name="size"
-                                                value="30">
-                                            <label for="sz3">L</label>
-                                        </li>
-                                        <li class="color"><input id="sz4" type="radio" name="size"
-                                                value="30">
-                                            <label for="sz4">X</label>
-                                        </li>
-                                        <li class="color"><input id="sz5" type="radio" name="size"
-                                                value="30">
-                                            <label for="sz5">XL</label>
-                                        </li>
+
+                                        @foreach ($productSizes ?? [] as $size)
+                                            <li class="color"><input id="sz{{ $size?->id }}" type="radio"
+                                                    name="size" value="{{ $size?->id }}">
+                                                <label for="sz{{ $size?->id }}">{{ $size?->name }}</label>
+                                            </li>
+                                        @endforeach
+
                                     </ul>
                                 </div>
                             </div>
@@ -148,9 +110,16 @@
                                 <a href="#" class="wl-btn"><i class="fi flaticon-heart"></i></a>
                             </div>
                             <ul class="important-text">
-                                <li><span>SKU:</span>FTE569P</li>
-                                <li><span>Categories:</span>Best Seller, sale</li>
-                                <li><span>Tags:</span>Fashion, Coat, Pink</li>
+                                <li><span>SKU:</span> {{ $product?->sku_code }}</li>
+                                <li><span>Categories:</span> {{ $product?->details?->category?->name }}</li>
+                                @php
+                                    $tagNames = [];
+                                    foreach ($product?->tags as $tag) {
+                                        $tagNames[] = $tag->name;
+                                    }
+
+                                @endphp
+                                <li><span>Tags:</span> {{ implode(', ', $tagNames) }}</li>
                             </ul>
                         </div>
                     </div>
@@ -169,9 +138,9 @@
                             (3)</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="Information-tab" data-bs-toggle="pill"
-                            data-bs-target="#Information" type="button" role="tab" aria-controls="Information"
-                            aria-selected="false">Additional info</button>
+                        <button class="nav-link" id="Information-tab" data-bs-toggle="pill" data-bs-target="#Information"
+                            type="button" role="tab" aria-controls="Information" aria-selected="false">Additional
+                            info</button>
                     </li>
                 </ul>
                 <div class="tab-content">
@@ -181,34 +150,9 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="Descriptions-item">
-                                        <p>Amet consectetur proin diam cras egestas augue habitant integer turpis
-                                            egestas egestas. A lectus proin suscipit viverra venenatis eget eget
-                                            libero scelerisque. Lacinia parturient id eu vel justo cursus eu. Libero
-                                            cursus nisl sollicitudin commodo magnis quam ultrices morbi. Et vitae
-                                            eget bibendum quam sed velit. Eget ornare urna nibh ullamcorper sed.
-                                            Habitant adipiscing dignissim aliquet laoreet ultrices etiam nulla sed
-                                            ut. Lectus ut vitae dignissim in cum id id velit egestas. Magna vel leo
-                                            hac massa at.
-
-                                            <br> <br> Urna fermentum id eget turpis eleifend id vitae. Mauris
-                                            malesuada ac arcu adipiscing etiam velit at tortor cras. Lacus eget
-                                            mollis gravida vulputate sed habitasse enim tempor ullamcorper. Dictum
-                                            enim quis morbi tincidunt. Nibh congue massa et arcu viverra lobortis.
-                                            Lectus ullamcorper id ut dictumst odio elit. Tristique dapibus diam
-                                            velit pharetra quisque odio.
+                                        <p>
+                                            {!! $product?->details?->description !!}
                                         </p>
-                                        <div class="Description-table">
-                                            <ul>
-                                                <li>While thus cackled sheepishly rigid after due one assenting</li>
-                                                <li>Et vitae eget bibendum quam sed velit. Eget ornare urna nibh ullamcorper
-                                                    sed.</li>
-                                                <li>Habitant adipiscing dignissim aliquet laoreet ultrices etiam nulla sed
-                                                    ut.</li>
-                                                <li>Lacinia parturient id eu vel justo cursus eu.</li>
-                                                <li>Mauris malesuada ac arcu adipiscing etiam velit at tortor cras.</li>
-
-                                            </ul>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -408,34 +352,7 @@
                             <div class="Additional-wrap">
                                 <div class="row">
                                     <div class="col-12">
-                                        <table class="table-responsive">
-                                            <tbody>
-                                                <tr>
-                                                    <td>Weight (w/o wheels)</td>
-                                                    <td>2 LBS</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Weight Capacity</td>
-                                                    <td>60 LBS</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Width</td>
-                                                    <td>50″</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Seat back height</td>
-                                                    <td>30.4″</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Color</td>
-                                                    <td>Black, Blue, Red, White</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Size</td>
-                                                    <td>S, M, L, X, XL</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                        <p>{!! $product?->details?->additional_info !!}</p>
                                     </div>
                                 </div>
                             </div>
