@@ -1,5 +1,6 @@
 @php
     $categories = App\Models\Category::with('subCategories')->latest('id')->get();
+    $user = auth('web')?->user();
 
 @endphp
 
@@ -78,12 +79,26 @@
                 </div>
                 <div class="col-lg-4 col-12">
                     <div class="middle-right">
-                        <ul>
+                        <ul class="d-flex gap-1">
                             <li><a href="{{ route('compare') }}"><i
                                         class="fi flaticon-right-and-left"></i><span>Compare</span></a>
                             </li>
-                            <li><a href="{{ route('login') }}"><i
-                                        class="fi flaticon-user-profile"></i><span>Login</span></a>
+                            <li class="d-flex gap-2 align-items-center">
+                                @if ($user)
+                                    <div class="">
+                                        <img src="{{ $user?->thumbnail }}" alt="" width="30"
+                                            class="img-fluid"
+                                            style="max-width: 30px; border-radius: 50%; object-fit: cover">
+                                    </div>
+                                    <span>{{ Str::limit($user?->name, 7) }}</span>
+                                    <div class="dropdown-content">
+                                        <a href="">Profile</a>
+                                        <a href="{{ route('logout') }}">Logout</a>
+                                    </div>
+                                @else
+                                    <a href="{{ route('login') }}"><i
+                                            class="fi flaticon-user-profile"></i><span>Login</span></a>
+                                @endif
                             </li>
                             <li>
                                 <div class="header-wishlist-form-wrapper">
