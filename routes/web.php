@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Web\HomeController;
+use App\Http\Controllers\Web\CartController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -26,6 +27,14 @@ Route::controller(AuthController::class)->group(function () {
     Route::get('/register', 'register')->name('register');
     Route::post('/register', 'postRegister')->name('postRegister');
     Route::get('/logout', 'logout')->name('logout');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::controller(CartController::class)->group(function () {
+        Route::post('/cart/store', 'store')->name('cart.store');
+        Route::get('/cart/details', 'cartDetails')->name('cartDetails');
+        Route::get('/cart/{cart}/delete', 'deleteCart')->name('cart.delete');
+    });
 });
 
 @include('admin.php');

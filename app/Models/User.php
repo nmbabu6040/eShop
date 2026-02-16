@@ -67,4 +67,9 @@ class User extends Authenticatable
             get: fn() => $src,
         );
     }
+
+    public function cartItems()
+    {
+        return $this->hasMany(Cart::class);
+    }
 }

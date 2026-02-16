@@ -53,6 +53,30 @@ class AuthController extends Controller
         }
     }
 
+
+    // public function postLogin(Request $request)
+    // {
+    //     $request->validate([
+    //         'email' => 'required|email|exists:users,email',
+    //         'password' => 'required|min:6'
+    //     ]);
+
+    //     if (Auth::attempt($request->only('email', 'password'))) {
+    //         $user = Auth::user();
+
+    //         if ($user->hasRole(AuthEnums::USER->value)) {
+    //             return to_route('root')->withSuccess('Login successfully');
+    //         }
+
+    //         Auth::logout();
+    //         return back()->withErrors(['email' => 'Unauthorized user']);
+    //     }
+
+    //     return back()->withErrors([
+    //         'email' => 'Invalid credentials'
+    //     ]);
+    // }
+
     public function logout(User $user)
     {
         Auth::logout();
