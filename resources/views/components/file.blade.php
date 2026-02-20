@@ -1,19 +1,15 @@
 <div class="from-group mb-3">
     @if (isset($label))
-        <label for="{{ $name }}" class="form-label">
-           {{ $label }} @if (!empty($required)) <span class="text-danger">*</span> @endif
+        <label for="{{ $name }}" class="form-label mb-0">
+            {{ $label }} @if (!empty($required))
+                <span class="text-danger">*</span>
+            @endif
         </label>
     @endif
 
-    <input
-        type="file"
-        name="{{ $name }}"
-        id="{{ $id ?? $name }}"
-        class="form-control {{ $class }}"
-        placeholder="{{ $placeholder }}"
-        onchange="previewFile(event, '{{ $preview }}')"
-        @if (!empty($required)) required @endif
-    >
+    <input type="file" name="{{ $name }}" id="{{ $id ?? $name }}" class="form-control {{ $class }}"
+        placeholder="{{ $placeholder }}" onchange="previewFile(event, '{{ $preview }}')"
+        @if (!empty($required)) required @endif>
 
     @error($name)
         <span class="text-danger">{{ $message }}</span>
@@ -28,13 +24,13 @@
         if (input.files && input.files[0]) {
             const reader = new FileReader();
 
-            reader.onload = function(e){
+            reader.onload = function(e) {
                 preview.src = e.target.result;
                 preview.style.display = 'block';
             }
 
             reader.readAsDataURL(input.files[0]);
-        }else{
+        } else {
             preview.src = '';
             preview.style.display = 'none';
         }

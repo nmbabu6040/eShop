@@ -1,11 +1,16 @@
-<div>
-     @if (isset($label))
-        <label for="{{ $name }}" class="form-label">
-           {{ $label }} @if (!empty($required)) <span class="text-danger">*</span> @endif
+<div class="from-group mb-3">
+    @if (isset($label))
+        <label for="{{ $name }}" class="form-label mb-0">
+            {{ $label }} @if (!empty($required))
+                <span class="text-danger">*</span>
+            @endif
         </label>
     @endif
 
-    <select name="{{ $name }}" id="{{ $id ?? $name }}" class="form-select form-control {{ $class }}" @if (!empty($required)) required @endif @if ($placeholder) placeholder="{{ $placeholder }}" @endif @if (!empty($disabled)) disabled @endif @if (!empty($multiple)) multiple @endif>
+    <select name="{{ $name }}" id="{{ $id ?? $name }}" class="form-select form-control {{ $class }}"
+        @if (!empty($required)) required @endif
+        @if ($placeholder) placeholder="{{ $placeholder }}" @endif
+        @if (!empty($disabled)) disabled @endif @if (!empty($multiple)) multiple @endif>
 
         {{ $slot }}
     </select>

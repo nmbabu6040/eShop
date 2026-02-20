@@ -185,7 +185,7 @@
                                             <span class="mini-checkout-price">Subtotal:
                                                 <span>${{ $subTotal ?? 0 }}</span></span>
                                             <div class="mini-btn">
-                                                <a href="{{ route('cartDetails') }}" class="view-cart-btn">View
+                                                <a href="{{ route('cart.index') }}" class="view-cart-btn">View
                                                     Cart</a>
                                             </div>
                                         </div>

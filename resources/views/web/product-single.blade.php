@@ -115,7 +115,7 @@
                                 </div>
                                 <button type="submit" class="theme-btn-s2 border-0">Add to cart</button>
 
-                                @if ($user->wishLists()->where('product_id', $product?->id)->exists())
+                                @if ($user?->wishLists()->where('product_id', $product?->id)->exists())
                                     <a href="{{ route('wishlist.destroy', $product?->slug) }}" class="wl-btn bg-primary">
                                         <i class="fi flaticon-heart text-white"></i>
                                     </a>
