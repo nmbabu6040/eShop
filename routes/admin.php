@@ -92,7 +92,7 @@ Route::prefix('admin')->group(function () {
 
     // coupon route
     Route::controller(CouponController::class)->group(function () {
-        Route::get('/coupons', 'index')->name('coupon.index');
+        Route::get('/coupon', 'index')->name('coupon.index');
         Route::post('/coupon/store', 'store')->name('coupon.store');
         Route::get('/coupon/{coupon}/edit', 'edit')->name('coupon.edit');
         Route::put('/coupon/{coupon}/update', 'update')->name('coupon.update');
