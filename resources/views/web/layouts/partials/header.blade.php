@@ -1,7 +1,6 @@
 @php
     $categories = App\Models\Category::with('subCategories')->latest('id')->get();
     $user = auth('web')?->user();
-
 @endphp
 
 <header id="header">
@@ -70,7 +69,7 @@
                         </div>
                         <div class="search-box">
                             <div class="input-group">
-                                <input type="search" class="form-control" placeholder="What are you looking for?">
+                                <input type="search" class="form-control" placeholder="What are you looking for ?">
                                 <button class="search-btn" type="submit"> <i class="fi flaticon-search"></i>
                                 </button>
                             </div>
@@ -101,55 +100,38 @@
                                 @endif
                             </li>
                             <li>
+                                @php
+                                    $wishLists = $user?->wishLists()?->latest()->get();
+                                    $totalWishLists = $wishLists?->count() ?? 0;
+                                @endphp
                                 <div class="header-wishlist-form-wrapper">
                                     <button class="wishlist-toggle-btn"> <i class="fi flaticon-heart"></i>
-                                        <span class="cart-count">3</span></button>
+                                        <span class="cart-count">{{ $totalWishLists ?? 0 }}</span></button>
                                     <div class="mini-wislist-content">
                                         <button class="mini-cart-close"><i class="ti-close"></i></button>
                                         <div class="mini-cart-items">
-                                            <div class="mini-cart-item clearfix">
-                                                <div class="mini-cart-item-image">
-                                                    <a href="{{ route('shop') }}"><img
-                                                            src="{{ asset('web/assets/images/cart/img-1.jpg') }}"
-                                                            alt></a>
+                                            @foreach ($wishLists ?? [] as $wishList)
+                                                <div class="mini-cart-item clearfix">
+                                                    <div class="mini-cart-item-image">
+                                                        <a
+                                                            href="{{ route('singleProduct', $wishList?->product?->slug) }}"><img
+                                                                src="{{ $wishList?->product?->thumbnail }}" alt></a>
+                                                    </div>
+                                                    <div class="mini-cart-item-des">
+                                                        <a
+                                                            href="{{ route('singleProduct', $wishList?->product?->slug) }}">{{ $wishList?->product?->name }}</a>
+                                                        <span
+                                                            class="mini-cart-item-price">${{ $wishList?->product?->discount_price > 0 ? $wishList?->product?->discount_price : $wishList?->product?->price }}</span>
+                                                        <span class="mini-cart-item-quantity"><a
+                                                                href="{{ route('wishlist.destroy', $wishList?->product?->slug) }}"><i
+                                                                    class="ti-close"></i></a></span>
+                                                    </div>
                                                 </div>
-                                                <div class="mini-cart-item-des">
-                                                    <a href="{{ route('shop') }}">Stylish Pink Coat</a>
-                                                    <span class="mini-cart-item-price">$150</span>
-                                                    <span class="mini-cart-item-quantity"><a href="#"><i
-                                                                class="ti-close"></i></a></span>
-                                                </div>
-                                            </div>
-                                            <div class="mini-cart-item clearfix">
-                                                <div class="mini-cart-item-image">
-                                                    <a href="{{ route('shop') }}"><img
-                                                            src="{{ asset('web/assets/images/cart/img-2.jpg') }}"
-                                                            alt></a>
-                                                </div>
-                                                <div class="mini-cart-item-des">
-                                                    <a href="{{ route('shop') }}">Blue Bag</a>
-                                                    <span class="mini-cart-item-price">$120</span>
-                                                    <span class="mini-cart-item-quantity"><a href="#"><i
-                                                                class="ti-close"></i></a></span>
-                                                </div>
-                                            </div>
-                                            <div class="mini-cart-item clearfix">
-                                                <div class="mini-cart-item-image">
-                                                    <a href="{{ route('shop') }}"><img
-                                                            src="{{ asset('web/assets/images/cart/img-3.jpg') }}"
-                                                            alt></a>
-                                                </div>
-                                                <div class="mini-cart-item-des">
-                                                    <a href="{{ route('shop') }}">Kids Blue Shoes</a>
-                                                    <span class="mini-cart-item-price">$120</span>
-                                                    <span class="mini-cart-item-quantity"><a href="#"><i
-                                                                class="ti-close"></i></a></span>
-                                                </div>
-                                            </div>
+                                            @endforeach
                                         </div>
                                         <div class="mini-cart-action clearfix">
                                             <div class="mini-btn">
-                                                <a href="wishlist.html" class="view-cart-btn">View
+                                                <a href="{{ route('wishlist') }}" class="view-cart-btn">View
                                                     Wishlist</a>
                                             </div>
                                         </div>

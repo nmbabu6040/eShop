@@ -114,7 +114,15 @@
                                     <input class="text-value" name="quantity" type="text" value="1">
                                 </div>
                                 <button type="submit" class="theme-btn-s2 border-0">Add to cart</button>
-                                <a href="#" class="wl-btn"><i class="fi flaticon-heart"></i></a>
+
+                                @if ($user->wishLists()->where('product_id', $product?->id)->exists())
+                                    <a href="{{ route('wishlist.destroy', $product?->slug) }}" class="wl-btn bg-primary">
+                                        <i class="fi flaticon-heart text-white"></i>
+                                    </a>
+                                @else
+                                    <a href="{{ route('wishlist.store', $product?->slug) }}" class="wl-btn"><i
+                                            class="fi flaticon-heart"></i></a>
+                                @endif
                             </div>
                             @error('quantity')
                                 <small class="text-danger">{{ $message }}</small>
@@ -377,3 +385,8 @@
     </div>
     <!-- product-single-section  end-->
 @endsection
+@push('style')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+@endpush

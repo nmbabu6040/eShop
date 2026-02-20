@@ -66,11 +66,12 @@ class HomeController extends Controller
 
     public function singleProduct($slug)
     {
+        $user = auth('web')?->user();
         $product = Product::where('slug', $slug)->first();
         $colorIds = $product->inventories->pluck('color_id')->toArray();
         $productColors = Color::whereIn('id', $colorIds)->get();
         $sizeIds = $product->inventories->pluck('size_id')->toArray();
         $productSizes = Size::whereIn('id', $sizeIds)->get();
-        return view('web.product-single', compact('product', 'productColors', 'productSizes'));
+        return view('web.product-single', compact('product', 'productColors', 'productSizes', 'user'));
     }
 }

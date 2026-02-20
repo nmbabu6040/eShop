@@ -52,6 +52,11 @@ class Product extends Model
         return $this->hasMany(ProductInventory::class);
     }
 
+    public function wishLists()
+    {
+        return $this->hasMany(WishList::class);
+    }
+
     /* ================= Boot ================= */
 
     protected static function boot()
