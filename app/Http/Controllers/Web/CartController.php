@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Enums\Enums\CouponTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\Product;
+use App\Models\User;
+use App\Models\Coupon;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -59,11 +63,21 @@ class CartController extends Controller
         $user = auth('web')->user();
         $cartItems = Cart::where('user_id', $user->id)->where('product_id', $request->product_id)->first();
 
+
+
         $cartItems->update([
             'quantity' => $request->quantity,
         ]);
 
-        return response()->json(['message' => 'Cart updated successfully']);
+        $subTotalPrice = Cart::where('user_id', $user->id)->sum(function ($item) {
+
+            return $item->product->discount_price > 0 ? $item->product->discount_price : $item->product->price * $item->quantity;
+        })->sum();
+
+        return response()->json([
+            'message' => 'Cart updated successfully',
+            'subTotalPrice' => $subTotalPrice,
+        ]);
     }
 
     public function deleteCart(Cart $cart)
@@ -75,7 +89,49 @@ class CartController extends Controller
     public function cartCouponApply(Request $request)
     {
         $request->validate([
-            'coupon_code' => 'required|exists:coupons,coupon_code',
+            'subTotalPrice' => 'required',
+            'couponCode' => 'required|exists:coupons,coupon_code',
         ]);
+
+        $discountPrice = 0;
+        $couponCode = $request->couponCode;
+
+        $coupon = Coupon::where('coupon_code', $couponCode)->first();
+
+        $isValid = $coupon->start_date <= now() && $coupon->expiry_date >= now();
+        if (!$isValid) {
+            return response()->json([
+                'message' => 'Coupon Code is not valid'
+            ], 400);
+        }
+
+        $hasLimit = $coupon->limit > 0;
+        if (!$hasLimit) {
+            return response()->json([
+                'message' => 'Coupon Limit is over'
+            ], 400);
+        }
+
+        $minAmount = $coupon->min_amount;
+        if ($minAmount > $request->subTotalPrice) {
+            return response()->json([
+                'message' => 'Coupon is not valid for this amount'
+            ], 400);
+        }
+
+        $couponDiscount = 0;
+        if ($coupon->coupon_type == CouponTypeEnum::PERCENTAGE->value) {
+            $couponDiscount = $request->subTotalPrice * $coupon->discount / 100;
+        } else {
+            $couponDiscount = $coupon->discount;
+        }
+
+        $discountPrice = $request->subTotalPrice - $couponDiscount;
+
+        return response()->json([
+            'message' => 'Coupon Applied Successfully',
+            'id' => $coupon->id,
+            'discountPrice' => $discountPrice,
+        ], 200);
     }
 }
