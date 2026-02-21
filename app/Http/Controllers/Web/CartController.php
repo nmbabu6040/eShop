@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Web;
 use App\Enums\Enums\CouponTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
-use App\Models\Product;
-use App\Models\User;
 use App\Models\Coupon;
 use Illuminate\Http\Request;
 
@@ -61,22 +59,15 @@ class CartController extends Controller
         ]);
 
         $user = auth('web')->user();
-        $cartItems = Cart::where('user_id', $user->id)->where('product_id', $request->product_id)->first();
 
+        $cartItem = Cart::where('user_id', $user->id)->where('product_id', $request->product_id)->first();
 
-
-        $cartItems->update([
-            'quantity' => $request->quantity,
+        $cartItem->update([
+            'quantity' => $request->quantity
         ]);
-
-        $subTotalPrice = Cart::where('user_id', $user->id)->sum(function ($item) {
-
-            return $item->product->discount_price > 0 ? $item->product->discount_price : $item->product->price * $item->quantity;
-        })->sum();
 
         return response()->json([
             'message' => 'Cart updated successfully',
-            'subTotalPrice' => $subTotalPrice,
         ]);
     }
 
