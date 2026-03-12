@@ -27,11 +27,12 @@
                 <div class="col-12">
                     <div class="single-page-title">
                         <h2>Your Checkout</h2>
-                        <p>There are 4 products in this list</p>
+                        <p>There are {{ $cartItems->count() ?? 0 }} products in this list</p>
                     </div>
                 </div>
             </div>
-            <form>
+            <form action="{{ route('order.store') }}" method="post">
+                @csrf
                 <div class="checkout-wrap">
                     <div class="row">
                         <div class="col-lg-8 col-12">
@@ -43,52 +44,53 @@
                                     <div class="billing-adress">
                                         <div class="contact-form form-style">
                                             <div class="row">
-                                                <div class="col-lg-6 col-md-12 col-12">
-                                                    <input type="text" placeholder="First Name*" id="fname1"
-                                                        name="fname">
+                                                <div class="col-lg-12 col-md-12 col-12">
+                                                    <input type="text" placeholder="Name*" id="fname1" name="name"
+                                                        value="{{ old('firstName') ?? $user?->name }}">
                                                 </div>
-                                                <div class="col-lg-6 col-md-12 col-12">
+                                                {{-- <div class="col-lg-6 col-md-12 col-12">
                                                     <input type="text" placeholder="Last Name*" id="fname2"
-                                                        name="fname">
-                                                </div>
+                                                        name="lastName">
+                                                </div> --}}
                                                 <div class="col-lg-6 col-md-12 col-12">
-                                                    <select name="address" id="Country" class="form-control">
+                                                    <select name="country" id="Country" class="form-control"
+                                                        value="{{ old('country') ?? $user?->country }}">
                                                         <option disabled="" selected="">Country*</option>
-                                                        <option>United State</option>
-                                                        <option>Bangladesh</option>
-                                                        <option>India</option>
-                                                        <option>Srilanka</option>
-                                                        <option>Pakisthan</option>
-                                                        <option>Afgansthan</option>
+                                                        <option value="united_state">United State</option>
+                                                        <option value="bangladesh">Bangladesh</option>
+                                                        <option value="india">India</option>
+                                                        <option value="srilanka">Srilanka</option>
+                                                        <option value="pakisthan">Pakisthan</option>
+                                                        <option value="afgansthan">Afgansthan</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-lg-6 col-md-12 col-12">
                                                     <input type="text" placeholder="City / Town*" id="City"
-                                                        name="City">
+                                                        name="city" value="{{ old('city') }}">
                                                 </div>
                                                 <div class="col-lg-6 col-md-12 col-12">
-                                                    <input type="text" placeholder="Postcode / ZIP*" id="Post2"
-                                                        name="Post">
+                                                    <input type="text" placeholder="Postcode / ZIP*" id="Post"
+                                                        name="post" value="{{ old('post') }}">
                                                 </div>
                                                 <div class="col-lg-6 col-md-12 col-12">
                                                     <input type="text" placeholder="Company Name*" id="Company"
-                                                        name="Company">
+                                                        name="company" value="{{ old('company') }}">
                                                 </div>
                                                 <div class="col-lg-6 col-md-12 col-12">
-                                                    <input type="text" placeholder="Email Address*" id="email4"
-                                                        name="email">
+                                                    <input type="email" placeholder="Email Address*" id="email4"
+                                                        name="email" value="{{ old('email') ?? $user?->email }}">
                                                 </div>
                                                 <div class="col-lg-6 col-md-12 col-12">
-                                                    <input type="text" placeholder="Phone*" id="email2"
-                                                        name="email">
+                                                    <input type="number" placeholder="Phone*" id="email2" name="phone"
+                                                        value="{{ old('phone') ?? $user?->phone }}">
                                                 </div>
                                                 <div class="col-lg-12 col-md-12 col-12">
                                                     <input type="text" placeholder="Address*" id="Adress"
-                                                        name="Adress">
+                                                        name="address" value="{{ old('address') }}">
                                                 </div>
                                                 <div class="col-lg-12 col-md-12 col-12">
                                                     <div class="note-area">
-                                                        <textarea name="massage" placeholder="Additional Information"></textarea>
+                                                        <textarea name="massage" placeholder="Additional Information">{{ old('massage') }}</textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -103,46 +105,48 @@
                                                 <div class="row">
                                                     <div class="col-lg-6 col-md-12 col-12">
                                                         <input type="text" placeholder="First Name*" id="fname6"
-                                                            name="fname">
+                                                            name="shippingName" value="{{ old('shippingName') }}">
                                                     </div>
-                                                    <div class="col-lg-6 col-md-12 col-12">
+                                                    {{-- <div class="col-lg-6 col-md-12 col-12">
                                                         <input type="text" placeholder="Last Name*" id="fname7"
                                                             name="fname">
-                                                    </div>
+                                                    </div> --}}
                                                     <div class="col-lg-6 col-md-12 col-12">
-                                                        <select name="address" id="Country2" class="form-control">
+                                                        <select name="shippingCountry" id="Country2"
+                                                            class="form-control" value="{{ old('shippingCountry') }}">
                                                             <option disabled="" selected="">Country*</option>
-                                                            <option>United State</option>
-                                                            <option>Bangladesh</option>
-                                                            <option>India</option>
-                                                            <option>Srilanka</option>
-                                                            <option>Pakisthan</option>
-                                                            <option>Afgansthan</option>
+                                                            <option value="united_state">United State</option>
+                                                            <option value="bangladesh">Bangladesh</option>
+                                                            <option value="india">India</option>
+                                                            <option value="srilanka">Srilanka</option>
+                                                            <option value="pakisthan">Pakisthan</option>
+                                                            <option value="afgansthan">Afgansthan</option>
                                                         </select>
                                                     </div>
                                                     <div class="col-lg-6 col-md-12 col-12">
                                                         <input type="text" placeholder="City / Town*" id="City1"
-                                                            name="City">
+                                                            name="shippingCity" value="{{ old('shippingCity') }}">
                                                     </div>
                                                     <div class="col-lg-6 col-md-12 col-12">
                                                         <input type="text" placeholder="Postcode / ZIP*"
-                                                            id="Post1" name="Post">
+                                                            id="Post2" name="shippingPost"
+                                                            value="{{ old('shippingPost') }}">
                                                     </div>
                                                     <div class="col-lg-6 col-md-12 col-12">
                                                         <input type="text" placeholder="Company Name*" id="Company1"
-                                                            name="Company">
+                                                            name="shippingCompany" value="{{ old('shippingCompany') }}">
                                                     </div>
                                                     <div class="col-lg-6 col-md-12 col-12">
-                                                        <input type="text" placeholder="Email Address*" id="email5"
-                                                            name="email">
+                                                        <input type="email" placeholder="Email Address*" id="email5"
+                                                            name="shippingEmail" value="{{ old('shippingEmail') }}">
                                                     </div>
                                                     <div class="col-lg-6 col-md-12 col-12">
-                                                        <input type="text" placeholder="Phone*" id="phone1"
-                                                            name="email">
+                                                        <input type="number" placeholder="Phone*" id="phone1"
+                                                            name="shippingPhone" value="{{ old('shippingPhone') }}">
                                                     </div>
                                                     <div class="col-lg-12 col-md-12 col-12">
                                                         <input type="text" placeholder="Address*" id="Adress1"
-                                                            name="Adress">
+                                                            name="shippingAddress" value="{{ old('shippingAddress') }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -158,30 +162,34 @@
                                     <div class="title">
                                         <h2>Products <span>Subtotal</span></h2>
                                     </div>
-                                    <div class="oreder-product">
-                                        <div class="images">
-                                            <span>
-                                                <img src="assets/images/cart/img-1.jpg" alt="">
-                                            </span>
+
+                                    @foreach ($cartItems ?? [] as $item)
+                                        <div class="oreder-product d-flex justify-between align-itrems-center">
+                                            <div class="images" width="80">
+                                                <img src="{{ $item->product?->thumbnail }}" alt=""
+                                                    class="img-fluid w-100">
+                                            </div>
+                                            <div class="product">
+                                                <ul>
+                                                    <li class="first-cart">{{ Str::limit($item->product?->name, 10) }}
+                                                        (x{{ $item->quantity }})
+                                                    </li>
+                                                    <li>
+                                                        <div class="rating-product">
+                                                            <i class="fi flaticon-star"></i>
+                                                            <i class="fi flaticon-star"></i>
+                                                            <i class="fi flaticon-star"></i>
+                                                            <i class="fi flaticon-star"></i>
+                                                            <i class="fi flaticon-star"></i>
+                                                            <span>15</span>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <span>${{ $item->product?->discount_price > 0 ? $item->product?->discount_price * $item->quantity : $item->product?->price * $item->quantity }}</span>
                                         </div>
-                                        <div class="product">
-                                            <ul>
-                                                <li class="first-cart">Stylish Pink(x1)</li>
-                                                <li>
-                                                    <div class="rating-product">
-                                                        <i class="fi flaticon-star"></i>
-                                                        <i class="fi flaticon-star"></i>
-                                                        <i class="fi flaticon-star"></i>
-                                                        <i class="fi flaticon-star"></i>
-                                                        <i class="fi flaticon-star"></i>
-                                                        <span>15</span>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <span>$150.00</span>
-                                    </div>
-                                    <div class="oreder-product">
+                                    @endforeach
+                                    {{-- <div class="oreder-product">
                                         <div class="images">
                                             <span>
                                                 <img src="assets/images/cart/img-2.jpg" alt="">
@@ -203,7 +211,7 @@
                                             </ul>
                                         </div>
                                         <span>$150.00</span>
-                                    </div>
+                                    </div> --}}
                                     <!-- Shipping -->
                                     <div class="mt-3 mb-3">
                                         <div class="title border-0">
@@ -211,18 +219,18 @@
                                         </div>
                                         <ul>
                                             <li class="free">
-                                                <input id="Free" type="radio" name="color" value="30"
+                                                <input id="Free" type="radio" name="charge" value="100"
                                                     checked>
-                                                <label for="Free">Inside City: <span>$10.00</span></label>
+                                                <label for="Free">Inside Dhaka: <span>$100.00</span></label>
                                             </li>
                                             <li class="free">
-                                                <input id="Local" type="radio" name="color" value="30">
-                                                <label for="Local">Outside City: <span>$20.00</span></label>
+                                                <input id="Local" type="radio" name="charge" value="200">
+                                                <label for="Local">Outside Dhaka: <span>$200.00</span></label>
                                             </li>
                                         </ul>
                                     </div>
                                     <div class="title s2">
-                                        <h2>Total<span>$300.00</span></h2>
+                                        <h2>Total<span>${{ $subTotal ?? 0 }}</span></h2>
                                     </div>
                                 </div>
                             </div>
@@ -236,17 +244,17 @@
                                                     <ul>
                                                         <li class="">
                                                             <input id="remove" type="radio" name="payment"
-                                                                value="30">
+                                                                value="cash">
                                                             <label for="remove">Cash on Delivery</label>
                                                         </li>
                                                         <li class="">
                                                             <input id="add" type="radio" name="payment"
-                                                                checked="checked" value="30">
+                                                                checked="checked" value="ssl">
                                                             <label for="add">Pay With SSLCOMMERZ</label>
                                                         </li>
                                                         <li class="">
                                                             <input id="getway" type="radio" name="payment"
-                                                                value="30">
+                                                                value="stripe">
                                                             <label for="getway">Pay With STRIPE</label>
                                                         </li>
                                                     </ul>
