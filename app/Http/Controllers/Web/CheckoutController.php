@@ -20,6 +20,6 @@ class CheckoutController extends Controller
         $subTotal = $cartItems->map(function ($item) {
             return $item->product->discount_price > 0 ? $item->product->discount_price * $item->quantity : $item->product->price * $item->quantity;
         })->sum();
-        return view('web.checkout', compact('user', 'cartItems', 'subTotal'));
+        return view('web.checkout', compact('user', 'cartItems', 'subTotal', 'coupon'));
     }
 }
