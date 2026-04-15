@@ -24,6 +24,7 @@
     <link href="{{ asset('web/assets/css/odometer-theme-default.css') }}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.26.2/dist/sweetalert2.min.css" rel="stylesheet">
     <link href="{{ asset('web/assets/sass/style.css') }}" rel="stylesheet">
+    @stack('style')
 </head>
 
 <body>

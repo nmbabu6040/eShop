@@ -82,7 +82,7 @@
                             <li><a href="{{ route('compare') }}"><i
                                         class="fi flaticon-right-and-left"></i><span>Compare</span></a>
                             </li>
-                            <li class="d-flex gap-2 align-items-center">
+                            <li class="text-center">
                                 @if ($user)
                                     <div class="">
                                         <img src="{{ $user?->thumbnail }}" alt="" width="30"
@@ -92,6 +92,7 @@
                                     <span>{{ Str::limit($user?->name, 7) }}</span>
                                     <div class="dropdown-content">
                                         <a href="">Profile</a>
+                                        <a href="{{ route('user.dashboard') }}">Dashboard</a>
                                         <a href="{{ route('logout') }}">Logout</a>
                                     </div>
                                 @else

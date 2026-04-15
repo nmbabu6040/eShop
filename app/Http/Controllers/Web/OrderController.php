@@ -9,10 +9,17 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    public function store(OrderRequest $request)
-    {
+    // public function store(OrderRequest $request)
+    // {
 
-        // dd($request->all());
+    //     $order = OrderRepository::storeByRequest($request);
+
+    //     return back()->withSuccess('Order Created Successfully');
+    // }
+
+    public function orderStore(Request $request)
+    {
         $order = OrderRepository::storeByRequest($request);
+        return to_route('root')->withSuccess('Order Created Successfully');
     }
 }
