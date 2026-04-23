@@ -1,3 +1,6 @@
+ @php
+     $admin = auth()->user();
+ @endphp
  <nav class="navbar">
      <a href="#" class="sidebar-toggler">
          <i data-feather="menu"></i>
@@ -15,19 +18,28 @@
          </form>
          <ul class="navbar-nav">
              <li class="nav-item dropdown">
-                 <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                     <i class="mt-1 flag-icon flag-icon-us" title="us"></i> <span class="ml-1 mr-1 font-weight-medium d-none d-md-inline-block">English</span>
+                 <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button"
+                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                     <i class="mt-1 flag-icon flag-icon-us" title="us"></i> <span
+                         class="ml-1 mr-1 font-weight-medium d-none d-md-inline-block">English</span>
                  </a>
                  <div class="dropdown-menu" aria-labelledby="languageDropdown">
-                     <a href="javascript:;" class="py-2 dropdown-item"><i class="flag-icon flag-icon-us" title="us" id="us"></i> <span class="ml-1"> English </span></a>
-                     <a href="javascript:;" class="py-2 dropdown-item"><i class="flag-icon flag-icon-fr" title="fr" id="fr"></i> <span class="ml-1"> French </span></a>
-                     <a href="javascript:;" class="py-2 dropdown-item"><i class="flag-icon flag-icon-de" title="de" id="de"></i> <span class="ml-1"> German </span></a>
-                     <a href="javascript:;" class="py-2 dropdown-item"><i class="flag-icon flag-icon-pt" title="pt" id="pt"></i> <span class="ml-1"> Portuguese </span></a>
-                     <a href="javascript:;" class="py-2 dropdown-item"><i class="flag-icon flag-icon-es" title="es" id="es"></i> <span class="ml-1"> Spanish </span></a>
+                     <a href="javascript:;" class="py-2 dropdown-item"><i class="flag-icon flag-icon-us" title="us"
+                             id="us"></i> <span class="ml-1"> English </span></a>
+                     <a href="javascript:;" class="py-2 dropdown-item"><i class="flag-icon flag-icon-fr" title="fr"
+                             id="fr"></i> <span class="ml-1"> French </span></a>
+                     <a href="javascript:;" class="py-2 dropdown-item"><i class="flag-icon flag-icon-de" title="de"
+                             id="de"></i> <span class="ml-1"> German </span></a>
+                     <a href="javascript:;" class="py-2 dropdown-item"><i class="flag-icon flag-icon-pt" title="pt"
+                             id="pt"></i> <span class="ml-1"> Portuguese
+                         </span></a>
+                     <a href="javascript:;" class="py-2 dropdown-item"><i class="flag-icon flag-icon-es" title="es"
+                             id="es"></i> <span class="ml-1"> Spanish </span></a>
                  </div>
              </li>
              <li class="nav-item dropdown nav-apps">
-                 <a class="nav-link dropdown-toggle" href="#" id="appsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                 <a class="nav-link dropdown-toggle" href="#" id="appsDropdown" role="button"
+                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                      <i data-feather="grid"></i>
                  </a>
                  <div class="dropdown-menu" aria-labelledby="appsDropdown">
@@ -57,7 +69,8 @@
                  </div>
              </li>
              <li class="nav-item dropdown nav-messages">
-                 <a class="nav-link dropdown-toggle" href="#" id="messageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                 <a class="nav-link dropdown-toggle" href="#" id="messageDropdown" role="button"
+                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                      <i data-feather="mail"></i>
                  </a>
                  <div class="dropdown-menu" aria-labelledby="messageDropdown">
@@ -133,7 +146,8 @@
                  </div>
              </li>
              <li class="nav-item dropdown nav-notifications">
-                 <a class="nav-link dropdown-toggle" href="#" id="notificationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                 <a class="nav-link dropdown-toggle" href="#" id="notificationDropdown" role="button"
+                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                      <i data-feather="bell"></i>
                      <div class="indicator">
                          <div class="circle"></div>
@@ -197,8 +211,9 @@
                  </div>
              </li>
              <li class="nav-item dropdown nav-profile">
-                 <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                     <img src="https://via.placeholder.com/30x30" alt="profile">
+                 <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
+                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                     <img src="{{ $admin->thumbnail }}" alt="profile">
                  </a>
                  <div class="dropdown-menu" aria-labelledby="profileDropdown">
                      <div class="dropdown-header d-flex flex-column align-items-center">
@@ -206,8 +221,8 @@
                              <img src="https://via.placeholder.com/80x80" alt="">
                          </div>
                          <div class="text-center info">
-                             <p class="mb-0 name font-weight-bold">Amiah Burton</p>
-                             <p class="mb-3 email text-muted">amiahburton@gmail.com</p>
+                             <p class="mb-0 name font-weight-bold">{{ $admin->name }}</p>
+                             <p class="mb-3 email text-muted">{{ $admin->email }}</p>
                          </div>
                      </div>
                      <div class="dropdown-body">
@@ -225,13 +240,7 @@
                                  </a>
                              </li>
                              <li class="nav-item">
-                                 <a href="javascript:;" class="nav-link">
-                                     <i data-feather="repeat"></i>
-                                     <span>Switch User</span>
-                                 </a>
-                             </li>
-                             <li class="nav-item">
-                                 <a href="javascript:;" class="nav-link">
+                                 <a href="{{ route('admin.logout') }}" class="nav-link">
                                      <i data-feather="log-out"></i>
                                      <span>Log Out</span>
                                  </a>

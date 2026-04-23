@@ -10,14 +10,32 @@ use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Auth\AdminAuthController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('admin')->group(function () {
+// Admin auth routes
+Route::controller(AdminAuthController::class)->prefix('admin')->group(function () {
+    Route::get('/login', 'login')->name('admin.login');
+    Route::post('/login', 'authenticate')->name('admin.authenticate');
+    // Route::get('/logout', 'logout')->name('admin.logout');
+});
 
-    //dashboard routes
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
+
+    Route::get('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+
     Route::controller(DashboardController::class)->group(function () {
-        Route::get('/', 'index')->name('admin.root');
+        Route::get('/dashboard', 'index')->name('admin.root');
     });
+
+    // users routes
+    Route::controller(UserController::class)->group(function () {
+        Route::get('/users', 'index')->name('admin.user.index');
+        Route::get('user/create', 'create')->name('admin.user.create');
+        Route::post('/user/store', 'store')->name('admin.user.store');
+    });
+
 
     //category routes
     Route::controller(CategoryController::class)->group(function () {

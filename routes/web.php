@@ -34,7 +34,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::get('/logout', 'logout')->name('logout');
 });
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'role:user'])->group(function () {
 
     // cart routes
     Route::controller(CartController::class)->group(function () {
