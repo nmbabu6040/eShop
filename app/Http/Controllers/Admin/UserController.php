@@ -39,4 +39,42 @@ class UserController extends Controller
 
         return redirect()->route('admin.user.index')->with('success', 'User created successfully');
     }
+
+    public function edit(User $user)
+    {
+        return view('admin.users.edit', compact('user'));
+    }
+
+    public function update(Request $request, User $user)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'image' => 'nullable|image|mimes:jpeg,jpg,png,gif,svg,webp|max:2048',
+        ]);
+
+        $user = UserRepository::updateByRequest($request, $user);
+
+        return redirect()->route('admin.user.index')->with('success', 'User updated successfully');
+    }
+
+    public function changePassword(Request $request, User $user)
+    {
+        $request->validate([
+            'password' => 'required|min:6|confirmed',
+            'password_confirmation' => 'required|min:6',
+        ]);
+
+        $user->update([
+            'password' => Hash::make($request->password),
+        ]);
+
+        return back()->with('success', 'Password changed successfully');
+    }
+
+    public function delete(User $user)
+    {
+        $user->delete();
+        return back()->with('success', 'User deleted successfully');
+    }
 }

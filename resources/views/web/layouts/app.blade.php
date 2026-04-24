@@ -33,7 +33,7 @@
     <div class="page-wrapper">
 
         <!-- start preloader -->
-        <div class="preloader">
+        {{-- <div class="preloader">
             <div class="vertical-centered-box">
                 <div class="content">
                     <div class="loader-circle"></div>
@@ -43,7 +43,7 @@
                     <img src="{{ asset('web/assets/images/preloader.png') }}" alt="">
                 </div>
             </div>
-        </div>
+        </div> --}}
         <!-- end preloader -->
 
         <!-- start header -->

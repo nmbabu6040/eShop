@@ -109,13 +109,13 @@
                 <a class="nav-link" data-toggle="collapse" href="#forms" role="button" aria-expanded="false"
                     aria-controls="forms">
                     <i class="link-icon" data-feather="inbox"></i>
-                    <span class="link-title">Forms</span>
+                    <span class="link-title">Order</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
                 <div class="collapse" id="forms">
                     <ul class="nav sub-menu">
                         <li class="nav-item">
-                            <a href="pages/forms/basic-elements.html" class="nav-link">Basic Elements</a>
+                            <a href="{{ route('admin.order.index') }}" class="nav-link">All Order</a>
                         </li>
                         <li class="nav-item">
                             <a href="pages/forms/advanced-elements.html" class="nav-link">Advanced Elements</a>

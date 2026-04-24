@@ -2,7 +2,7 @@
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center ">
-            <h5>Product List</h5>
+            <h5>All Order List</h5>
             <a href="{{ route('product.create') }}" class="btn btn-primary btn-md d-inline-flex align-items-center gap-1">
                 <div class="mr-1">
                     <i class="fas fa-plus"></i>
@@ -15,41 +15,32 @@
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
-                            <th scope="col">Product SKU</th>
-                            <th scope="col">Product Name</th>
-                            <th scope="col">Category</th>
-                            <th scope="col">Sub Category</th>
-                            <th scope="col">Brand</th>
-                            <th scope="col">Product Price</th>
-                            <th scope="col">Product Status</th>
-                            <th scope="col">Action</th>
+                            <th scope="col">Order ID</th>
+                            <th scope="col">Total Price</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Status</th>
+                            <th scope="col" class="text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($products ?? [] as $key => $product)
+                        @forelse($orders ?? [] as $key => $order)
                             <tr>
-                                <td>{{ $product?->sku_code }}</td>
-                                <td>{{ $product?->name }}</td>
-                                <td>{{ $product?->details?->category?->name }}</td>
-                                <td>{{ $product?->details?->subCategory?->name }}</td>
-                                <td>{{ $product?->details?->brand?->name }}</td>
-                                <td>{{ $product?->price }}</td>
+                                <td>{{ $order?->order_code }}</td>
+                                <td>{{ $order?->total_price }}</td>
+                                <td>{{ $order?->created_at->format('d-m-Y') }}</td>
                                 <td>
-                                    @if ($product?->status == 1)
+                                    @if ($order?->status == 1)
                                         <span class="text-white btn btn-success btn-sm">Active</span>
                                     @else
                                         <span class="text-white btn btn-danger btn-sm">Inactive</span>
                                     @endif
                                 </td>
                                 <td class="text-center">
-                                    <a href="{{ route('product.inventory', $product?->id) }}"
-                                        class="btn btn-success btn-icon">
+                                    <a href="" class="btn btn-success btn-icon">
                                         <i data-lucide="list"></i>
                                     </a>
-                                    <a href="{{ route('product.show', $product?->id) }}"
-                                        class="btn btn-secondary btn-icon "><i data-lucide="eye"></i></a>
-                                    <a href="{{ route('product.edit', $product?->id) }}"
-                                        class="btn btn-primary btn-icon "><i data-lucide="edit"></i></a>
+                                    <a href="" class="btn btn-secondary btn-icon "><i data-lucide="eye"></i></a>
+                                    <a href="" class="btn btn-primary btn-icon "><i data-lucide="edit"></i></a>
                                 </td>
                             </tr>
                         @empty
