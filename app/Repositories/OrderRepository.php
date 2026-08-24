@@ -5,14 +5,14 @@ namespace App\Repositories;
 use App\Enums\OrderStatusEnums;
 use App\Models\Coupon;
 use App\Models\Order;
-use App\Models\User;
 use Arafat\LaravelRepository\Repository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OrderRepository extends Repository
 {
     /**
-     * base method
+     * Base model
      *
      * @method model()
      */
@@ -21,47 +21,117 @@ class OrderRepository extends Repository
         return Order::class;
     }
 
+    /**
+     * Store order from checkout request.
+     */
     public static function storeByRequest(Request $request): Order
     {
-        // dd($request->all());
-        $user = auth('web')->user();
-        $cartItems = $user->cartItems;
-        $orderCode = '#' . str_pad(random_int(1000000000, 9999999999), 10, '0', STR_PAD_LEFT);
-        $couponId = $request->couponId;
-        $coupon = $couponId ? Coupon::find($couponId) : null;
-        $totalPrice = $cartItems->map(function ($item) {
-            return $item->product->discount_price > 0 ? $item->product->discount_price * $item->quantity : $item->product->price * $item->quantity;
-        })->sum();
+        return DB::transaction(function () use ($request) {
 
-        if ($coupon && $coupon->coupon_type == 'percentage') {
-            $totalPrice = $totalPrice - ($totalPrice * $coupon->discount / 100);
-        } else if ($coupon && $coupon->coupon_type == 'fixed') {
-            $totalPrice = $totalPrice - $coupon->discount;
-        }
+            $user = auth('web')->user();
 
-        $order = self::create([
-            'user_id' => $user->id,
-            'order_code' => $orderCode,
-            'charge' => $request->charge,
-            'total_price' => $totalPrice,
-            'coupon_id' => $couponId ?? null,
-            'has_coupon' => $couponId ? true : false,
-            'status' => OrderStatusEnums::PENDING->value,
-            'payment_method' => $request->payment,
-            'hasPayment' => false,
-            'message' => $request->massage,
+            $cartItems = $user->cartItems;
 
-        ]);
+            $orderCode = '#' . random_int(1000000000, 9999999999);
 
-        $orderProducts = OrderProductRepository::storeByRequest($request, $order);
+            $couponId = $request->couponId;
 
-        $billingAddress = BillingAddressRepository::storeByRequest($request, $order);
+            $coupon = $couponId
+                ? Coupon::find($couponId)
+                : null;
 
-        if ($request->shipping) {
+            /*
+            |--------------------------------------------------------------------------
+            | Calculate Cart Total
+            |--------------------------------------------------------------------------
+            */
 
-            $shippingAddress = ShippingAddressRepository::storeByRequest($request, $order);
-        }
+            $totalPrice = $cartItems->sum(function ($item) {
 
-        return $order;
+                $price = $item->product->discount_price > 0
+                    ? $item->product->discount_price
+                    : $item->product->price;
+
+                return $price * $item->quantity;
+            });
+
+            /*
+            |--------------------------------------------------------------------------
+            | Apply Coupon Discount
+            |--------------------------------------------------------------------------
+            */
+
+            if ($coupon) {
+
+                if ($coupon->coupon_type === 'percentage') {
+
+                    $totalPrice -=
+                        ($totalPrice * $coupon->discount) / 100;
+                } elseif ($coupon->coupon_type === 'fixed') {
+
+                    $totalPrice -= $coupon->discount;
+                }
+
+                // Prevent negative order total.
+                $totalPrice = max(0, $totalPrice);
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | Create Order
+            |--------------------------------------------------------------------------
+            */
+
+            $order = self::create([
+                'user_id' => $user->id,
+                'order_code' => $orderCode,
+                'charge' => $request->charge,
+                'total_price' => $totalPrice,
+                'coupon_id' => $couponId ?: null,
+                'has_coupon' => (bool) $couponId,
+                'status' => OrderStatusEnums::PENDING->value,
+                'payment_method' => $request->payment,
+                'hasPayment' => false,
+                'message' => $request->massage,
+            ]);
+
+            /*
+            |--------------------------------------------------------------------------
+            | Store Order Products
+            |--------------------------------------------------------------------------
+            */
+
+            OrderProductRepository::storeByRequest(
+                $request,
+                $order
+            );
+
+            /*
+            |--------------------------------------------------------------------------
+            | Store Billing Address
+            |--------------------------------------------------------------------------
+            */
+
+            BillingAddressRepository::storeByRequest(
+                $request,
+                $order
+            );
+
+            /*
+            |--------------------------------------------------------------------------
+            | Store Shipping Address
+            |--------------------------------------------------------------------------
+            */
+
+            if ($request->boolean('shipping')) {
+
+                ShippingAddressRepository::storeByRequest(
+                    $request,
+                    $order
+                );
+            }
+
+            return $order;
+        });
     }
 }

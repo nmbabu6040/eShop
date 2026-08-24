@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class BillingAddressRepository extends Repository
 {
     /**
-     * base method
+     * Base model
      *
      * @method model()
      */
@@ -19,20 +19,27 @@ class BillingAddressRepository extends Repository
         return BillingAddress::class;
     }
 
-    public static function storeByRequest(Request $request, Order $order): void
-    {
+    /**
+     * Store billing address from checkout request.
+     */
+    public static function storeByRequest(
+        Request $request,
+        Order $order
+    ): void {
+
         self::create([
-            'user_id' => auth('web')->user()->id,
+            'user_id' => auth('web')->id(),
             'order_id' => $order->id,
             'order_code' => $order->order_code,
-            'name' => $request->shippingName,
-            'email' => $request->shippingEmail,
-            'phone' => $request->shippingPhone,
-            'country' => $request->shippingCountry,
-            'city' => $request->shippingCity,
-            'address' => $request->shippingAddress,
-            'post' => $request->shippingPost,
-            'company' => $request->shippingCompany
+
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'country' => $request->country,
+            'city' => $request->city,
+            'address' => $request->address,
+            'post' => $request->post,
+            'company' => $request->company,
         ]);
     }
 }
